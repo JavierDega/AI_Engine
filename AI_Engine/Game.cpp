@@ -34,6 +34,7 @@ void Game::Initialize(HWND window, int width, int height)
     m_timer.SetFixedTimeStep(true);
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
     */
+	Input::GetInstance()->Initialize(window);
 }
 
 #pragma region Frame Update
@@ -55,6 +56,8 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
+	Input::GetInstance()->UpdateInput(m_deviceResources->GetD3DDevice());
+	GameScene::GetInstance()->Update(elapsedTime);
 }
 #pragma endregion
 
@@ -76,8 +79,9 @@ void Game::Render()
     // TODO: Add your rendering code here.
     context;
 
-    m_deviceResources->PIXEndEvent();
+	GameScene::GetInstance()->Render();
 
+    m_deviceResources->PIXEndEvent();
     // Show the new frame.
     m_deviceResources->Present();
 }
@@ -109,6 +113,7 @@ void Game::Clear()
 void Game::OnActivated()
 {
     // TODO: Game is becoming active window.
+	//-Add Hey!, You're back! message?
 }
 
 void Game::OnDeactivated()
@@ -126,6 +131,7 @@ void Game::OnResuming()
     m_timer.ResetElapsedTime();
 
     // TODO: Game is being power-resumed (or returning from minimize).
+	
 }
 
 void Game::OnWindowMoved()
@@ -148,8 +154,8 @@ void Game::OnWindowSizeChanged(int width, int height)
 void Game::GetDefaultSize(int& width, int& height) const
 {
     // TODO: Change to desired default window size (note minimum size is 320x200).
-    width = 800;
-    height = 600;
+    width = 1920;
+    height = 1080;
 }
 #pragma endregion
 
@@ -158,20 +164,29 @@ void Game::GetDefaultSize(int& width, int& height) const
 void Game::CreateDeviceDependentResources()
 {
     auto device = m_deviceResources->GetD3DDevice();
+	auto deviceContext = m_deviceResources->GetD3DDeviceContext();
 
     // TODO: Initialize device dependent objects here (independent of window size).
     device;
+	deviceContext;
+	//Initialize GameScene
+	GameScene::GetInstance()->Initialize(device, deviceContext);
+	
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.
 void Game::CreateWindowSizeDependentResources()
 {
     // TODO: Initialize windows-size dependent objects here.
+	D3D11_VIEWPORT screenViewport = m_deviceResources.get()->GetScreenViewport();
+	GameScene::GetInstance()->InitWindow(screenViewport);
 }
 
 void Game::OnDeviceLost()
 {
     // TODO: Add Direct3D resource cleanup here.
+	GameScene::GetInstance()->Reset();
+	Input::GetInstance()->Reset();
 }
 
 void Game::OnDeviceRestored()

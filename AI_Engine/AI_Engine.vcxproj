@@ -92,11 +92,13 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <FloatingPointModel>Fast</FloatingPointModel>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <AdditionalIncludeDirectories>C:\Users\javie\OneDrive\Documents\CT6GAMAI\AI_Engine\AI_Engine;C:\Users\javie\OneDrive\Documents\CT6GAMAI\AI_Engine\AI_Engine\Headers;C:\Users\javie\OneDrive\Documents\CT6GAMAI\AI_Engine\AI_Engine\Sources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\javie\OneDrive\Documents\CT6GAMAI\AI_Engine\AI_Engine;C:\Users\javie\OneDrive\Documents\CT6GAMAI\AI_Engine\AI_Engine\Headers;C:\Users\javie\OneDrive\Documents\CT6GAMAI\AI_Engine\AI_Engine\Sources;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -154,8 +156,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AnimatedTexture.h" />
     <ClInclude Include="DeviceResources.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Headers\AnimatedEntity.h" />
+    <ClInclude Include="Headers\BaseEntity.h" />
+    <ClInclude Include="Headers\GameEntity.h" />
+    <ClInclude Include="Headers\GameScene.h" />
+    <ClInclude Include="Headers\Input.h" />
+    <ClInclude Include="Headers\Miner.h" />
+    <ClInclude Include="Headers\MinerSM.h" />
+    <ClInclude Include="Headers\MinerStates.h" />
+    <ClInclude Include="Headers\State.h" />
+    <ClInclude Include="Headers\StateMachine.h" />
+    <ClInclude Include="Headers\UIButton.h" />
+    <ClInclude Include="Headers\UIEntity.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
@@ -169,6 +184,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Sources\AnimatedEntity.cpp" />
+    <ClCompile Include="Sources\BaseEntity.cpp" />
+    <ClCompile Include="Sources\GameEntity.cpp" />
+    <ClCompile Include="Sources\GameScene.cpp" />
+    <ClCompile Include="Sources\Input.cpp" />
+    <ClCompile Include="Sources\Miner.cpp" />
+    <ClCompile Include="Sources\MinerSM.cpp" />
+    <ClCompile Include="Sources\MinerStates.cpp" />
+    <ClCompile Include="Sources\State.cpp" />
+    <ClCompile Include="Sources\StateMachine.cpp" />
+    <ClCompile Include="Sources\UIButton.cpp" />
+    <ClCompile Include="Sources\UIEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
@@ -179,7 +206,17 @@
   <ItemGroup>
     <Manifest Include="settings.manifest" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\directxtk_desktop_2015.2018.11.20.1\build\native\directxtk_desktop_2015.targets" Condition="Exists('packages\directxtk_desktop_2015.2018.11.20.1\build\native\directxtk_desktop_2015.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\directxtk_desktop_2015.2018.11.20.1\build\native\directxtk_desktop_2015.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\directxtk_desktop_2015.2018.11.20.1\build\native\directxtk_desktop_2015.targets'))" />
+  </Target>
 </Project>
