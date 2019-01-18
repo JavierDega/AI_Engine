@@ -16,7 +16,7 @@ public:
 	{
 	}
 
-	T * m_attachedCharacter;
+	T * m_character;
 	State<T> * m_curState;
 	int m_charState;
 	//Time (In secs) since last SM execution

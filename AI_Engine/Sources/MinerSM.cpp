@@ -15,7 +15,7 @@ MinerSM::MinerSM()
 
 MinerSM::MinerSM(Miner * character)
 {
-	m_attachedCharacter = character;
+	m_character = character;
 	//m_charState could be replaced by dynamic_casts?
 	m_charState = 0;
 	m_curState = new MiningForGold();
@@ -33,9 +33,17 @@ void MinerSM::Update(float elapsedTime)
 	m_lastExec += elapsedTime;
 	if (m_lastExec >= m_execRate) {
 		m_lastExec = 0;
+
 		HandleStateTransitions();
 		//Execute state
-		m_curState->Execute(m_attachedCharacter);
+		m_curState->Execute(m_character);
+
+		//@Log values
+		m_character->m_text += L" Gold: " + to_wstring(m_character->m_gold) +
+			L" Bank: " + to_wstring(m_character->m_bankedGold) +
+			L" Tired: " + to_wstring(m_character->m_tiredness) +
+			L" Thirsty: " + to_wstring(m_character->m_thirstiness) +
+			L" Hungry: " + to_wstring(m_character->m_hunger);
 	}
 
 }
@@ -47,17 +55,44 @@ void MinerSM::HandleStateTransitions()
 	{
 	case MINING_GOLD:
 		//Transition conditions
-		if (m_attachedCharacter->m_gold >= 10) {
+		if (m_character->m_gold >= 10) {
 			ChangeState(BANKING_GOLD);
+		}
+		else if (m_character->m_tiredness >= 10) {
+			ChangeState(RESTING);
+		}
+		else if (m_character->m_thirstiness >= 10) {
+			//@Two cases
+			//We can, or cannot afford a bottle
+			(m_character->m_gold + m_character->m_bankedGold >= 5) ? ChangeState(DRINKING) : ChangeState(RESTING);
 		}
 		break;
 	case BANKING_GOLD:
-		//Back to mining instantly?
-		ChangeState(MINING_GOLD);
+		//@Transitions
+		if (m_character->m_tiredness >= 10) {
+			ChangeState(RESTING);
+		}
+		else if (m_character->m_thirstiness >= 10) {
+			//@Two cases
+			//We can, or cannot afford a bottle
+			(m_character->m_gold + m_character->m_bankedGold >= 5) ? ChangeState(DRINKING) : ChangeState(RESTING);
+		}
+		else ChangeState(MINING_GOLD);
 		break;
 	case RESTING:
+		//@Transitions only when woken up
+		if (m_character->m_tiredness == 0) {
+			//@Check hunger before thirst, since Having_Meal will decrease thirstiness too
+			if (m_character->m_thirstiness >= 10) {
+				//@Two cases
+				//We can, or cannot afford a bottle
+				(m_character->m_gold + m_character->m_bankedGold >= 5) ? ChangeState(DRINKING) : ChangeState(RESTING);
+			}
+			else ChangeState(MINING_GOLD);
+		}
 		break;
 	case DRINKING:
+		ChangeState(MINING_GOLD);
 		break;
 	case HAVING_MEAL:
 		break;
@@ -66,20 +101,23 @@ void MinerSM::HandleStateTransitions()
 
 void MinerSM::ChangeState(int newState)
 {
-	//Right place to use dictionaries/maps?:
+	//@Right place to use dictionaries/maps?:
 	//Map(AnimIndex, StateClass)
 	//Animated texture seems not to be the most exact
-	m_attachedCharacter->m_startMoving = true;
+	m_character->m_startMoving = true;
 	m_curState = NULL;
 	if (newState == BANKING_GOLD){
 		m_curState = new BankingGold();
-		m_charState = BANKING_GOLD;
-		m_attachedCharacter->m_animator->Load(m_attachedCharacter->m_animatedTextures[BANKING_GOLD].Get(), 2, 2);
 	}
 	if (newState == MINING_GOLD) {
 		m_curState = new MiningForGold();
-		m_charState = MINING_GOLD;
-		m_attachedCharacter->m_animator->Load(m_attachedCharacter->m_animatedTextures[MINING_GOLD].Get(), 2, 2);
 	}
-	
+	if (newState == RESTING) {
+		m_curState = new Resting();
+	}
+	if (newState == DRINKING) {
+		m_curState = new Drinking();
+	}
+	m_charState = newState;
+	m_character->m_animator->Load(m_character->m_animatedTextures[newState].Get(), 2, 2);
 }

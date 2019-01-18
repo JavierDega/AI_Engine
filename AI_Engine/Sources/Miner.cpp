@@ -9,28 +9,24 @@ using namespace Microsoft::WRL;
 Miner::Miner()
 {
 	//@Note: default constructor wont set attachedCharacter and might cause crashes
+	m_text = L"Default log!";
 	m_stateMachine = new MinerSM(this);
 	m_gold = 0;
 	m_bankedGold = 0;
 	m_thirstiness = 0;
 	m_hunger = 0;
-	m_startMoving = false;
+	m_tiredness = 0;
+	m_startMoving = true;
 	m_isMoving = false;
 	m_fracT = 0;
-}
-
-Miner::Miner(ID3D11Device1 * device, Vector2 screenPos)
-{
-	Initialize(device, screenPos, 0.5f);
-}
-Miner::Miner(ID3D11Device1 * device, Vector2 screenPos, float layerDepth)
-{
-	Initialize(device, screenPos, layerDepth);
 }
 
 Miner::~Miner()
 {
 	bool debug;
+	delete m_stateMachine;
+	m_stateMachine = nullptr;
+	m_font.reset();
 }
 
 void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
@@ -79,6 +75,9 @@ void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 scre
 	//All defaults, last argument is layerDepth
 	m_animator = std::make_unique<AnimatedTexture>(XMFLOAT2(0, 0), 0.0f, 1.0f, layerDepth);
 	m_animator->Load(m_animatedTextures[0].Get(), 2, 2);
+
+	//Font
+	m_font = std::make_unique<SpriteFont>(device, L"Textures/myfile.spritefont");
 }
 
 void Miner::Update(float elapsedTime)
@@ -92,6 +91,7 @@ void Miner::Update(float elapsedTime)
 		m_startMoving = false;
 		m_isMoving = true;
 		m_fracT = 0;
+		//@Load walking animation
 	}
 
 	//Handles state transitions
@@ -108,13 +108,30 @@ void Miner::Update(float elapsedTime)
 			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1000, 350), m_fracT);
 			break;
 		case RESTING:
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(750, 550), m_fracT);
 			break;
 		case DRINKING:
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 1000, 750), m_fracT);
 			break;
 		case HAVING_MEAL:
 			break;
 		}
-	//Check that lerp ended
-		if (m_fracT >= 1) m_isMoving = false;
+		//Check that lerp ended
+		if (m_fracT >= 1) {
+			m_isMoving = false;
+			//@Load right animation based on state, here
+		}
 	}
+}
+
+void Miner::Render(DirectX::SpriteBatch * spriteBatch)
+{
+	AnimatedEntity::Render(spriteBatch);
+	//@Extra: draw font
+	const wchar_t * output = m_text.c_str();
+	Vector2 m_fontPos = Vector2(m_screenPos.x, m_screenPos.y - 50);
+	Vector2 origin = m_font->MeasureString(output) / 2.f;
+	
+	m_font->DrawString(spriteBatch, output,
+		m_fontPos , Colors::White, 0.f, origin);
 }

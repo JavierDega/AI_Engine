@@ -7,12 +7,17 @@ class Miner :
 {
 public:
 	Miner();
-	Miner(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos);
-	Miner(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth);
 	~Miner();
 	virtual void Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth = 0.5f);
 	void Update(float elapsedTime);
+	//Draw
+	virtual void Render(DirectX::SpriteBatch * spriteBatch);
 
+
+	//Variables
+	//Font
+	std::unique_ptr<DirectX::SpriteFont> m_font;
+	std::wstring m_text;
 	//SM
 	StateMachine<Miner> * m_stateMachine;
 	//Anim control values
@@ -24,5 +29,6 @@ public:
 	int m_bankedGold;
 	int m_thirstiness;
 	int m_hunger;
+	int m_tiredness;
 };
 

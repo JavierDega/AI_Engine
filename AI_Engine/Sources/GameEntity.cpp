@@ -4,18 +4,14 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
+
+//Constructor
 GameEntity::GameEntity()
 {
 	m_screenPos = Vector2(0, 0);
 	m_origin = Vector2(0, 0);
 }
-//Overloads
-GameEntity::GameEntity(ID3D11Device1 * device)
-{
-	//Initialize with defaults
-	Initialize(device, L"Textures/gameentity.dds", Vector2(0, 0));
-}
-
+//Destructor
 GameEntity::~GameEntity()
 {
 	bool debug;
