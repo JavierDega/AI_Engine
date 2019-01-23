@@ -5,12 +5,6 @@
 
 MinerSM::MinerSM()
 {
-	//@Wont set attached character
-	//m_charState could be replaced by dynamic_casts?
-	m_charState = 0;
-	m_curState = new MiningForGold();
-	m_lastExec = 0;
-	m_execRate = 1.0f;
 }
 
 MinerSM::MinerSM(Miner * character)
@@ -20,7 +14,7 @@ MinerSM::MinerSM(Miner * character)
 	m_charState = 0;
 	m_curState = new MiningForGold();
 	m_lastExec = 0;
-	m_execRate = 1.0f;
+	m_execRate = 2.0f;
 }
 
 

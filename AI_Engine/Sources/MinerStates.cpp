@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "..\Headers\MinerStates.h"
+#include "GameScene.h"
+#include "Wife.h"
 
 using namespace std;
 
@@ -55,7 +57,17 @@ void Drinking::Execute(Miner * miner)
 
 void HavingMeal::Execute(Miner * miner)
 {
-
+	//Iterate through UI elements to find possible clicked UI Button
+	GameScene* gs = GameScene::GetInstance();
+	for (unsigned int i = 0; i < gs->m_entities.size(); i++) {
+		//Look for entities which can be mouse pressed
+		Wife * wife = dynamic_cast<Wife *>(gs->m_entities[i]);
+		if (wife) {
+			//@Ideally always gets wife, otherwise, game over?
+			
+	
+		}
+	}
 	//@Log (Also reset length)
 	miner->m_text = L"Having Meal!";
 }

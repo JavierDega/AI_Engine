@@ -1,40 +1,36 @@
 #include "pch.h"
-#include "Miner.h"
-#include "MinerSM.h"
+#include "..\Headers\Wife.h"
+#include "WifeSM.h"
 
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
 
-Miner::Miner()
+Wife::Wife()
 {
 	//@Note: default constructor wont set attachedCharacter and might cause crashes
-	m_text = L"Hello my trusty overlord!";
-	m_stateMachine = new MinerSM(this);
-	m_gold = 0;
-	m_bankedGold = 0;
-	m_thirstiness = 0;
-	m_hunger = 0;
-	m_tiredness = 0;
-	m_startMoving = true;
-	m_isMoving = false;
-	m_fracT = 0;
+	m_text = L"Provide us wealth my lord!";
+	m_stateMachine = new WifeSM(this);
+	m_cookState = 0;
+	m_foodStack = 0;
+	m_drinkStack = 0;
 }
 
-Miner::~Miner()
+
+Wife::~Wife()
 {
 	delete m_stateMachine;
 	m_stateMachine = nullptr;
 	m_font.reset();
 }
 
-void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
+void Wife::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
 {
 	//Original idle texture(Not animated)
 	ComPtr<ID3D11Resource> resource;
 	//Fill m_texture
 	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, L"Textures/mineridle.dds",
+		CreateDDSTextureFromFile(device, L"Textures/wifeidle.dds",
 			resource.GetAddressOf(),
 			m_texture.ReleaseAndGetAddressOf())
 	);
@@ -51,23 +47,11 @@ void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 scre
 	//Animated Textures in vector (Ruled by MinerSM enum)
 	//Ideally the resurce width and height are the same
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_animTexture;
-	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minermining.dds",
+	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/wifecooking.dds",
 		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
 	m_animatedTextures.push_back(m_animTexture);
 
-	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minerbanking.dds",
-		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
-	m_animatedTextures.push_back(m_animTexture);
-
-	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minerresting.dds",
-		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
-	m_animatedTextures.push_back(m_animTexture);
-
-	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minerdrinking.dds",
-		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
-	m_animatedTextures.push_back(m_animTexture);
-
-	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minerhavingmeal.dds",
+	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/wifedeliveringfood.dds",
 		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
 	m_animatedTextures.push_back(m_animTexture);
 
@@ -79,7 +63,7 @@ void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 scre
 	m_font = std::make_unique<SpriteFont>(device, L"Textures/myfile.spritefont");
 }
 
-void Miner::Update(float elapsedTime)
+void Wife::Update(float elapsedTime)
 {
 	AnimatedEntity::Update(elapsedTime);
 	//State transitions, state execution
@@ -99,20 +83,12 @@ void Miner::Update(float elapsedTime)
 		m_fracT += elapsedTime/m_stateMachine->m_execRate;
 		switch (m_stateMachine->m_charState)
 		{
-		case MINING_GOLD:
+		case COOKING:
 			//Lerp to goal position
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 1200, 550 ), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(550, 650), m_fracT);
 			break;
-		case BANKING_GOLD:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 900, 450 ), m_fracT);
-			break;
-		case RESTING:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 700, 550 ), m_fracT);
-			break;
-		case DRINKING:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 900, 650 ), m_fracT);
-			break;
-		case HAVING_MEAL:
+		case DELIVERING_FOOD:
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(800, 600), m_fracT);
 			break;
 		}
 		//Check that lerp ended
@@ -123,14 +99,14 @@ void Miner::Update(float elapsedTime)
 	}
 }
 
-void Miner::Render(DirectX::SpriteBatch * spriteBatch)
+void Wife::Render(DirectX::SpriteBatch * spriteBatch)
 {
 	AnimatedEntity::Render(spriteBatch);
 	//@Extra: draw font
 	const wchar_t * output = m_text.c_str();
 	Vector2 m_fontPos = Vector2(m_screenPos.x, m_screenPos.y - 50);
 	Vector2 origin = m_font->MeasureString(output) / 2.f;
-	
+
 	m_font->DrawString(spriteBatch, output,
-		m_fontPos , Colors::White, 0.f, origin);
+		m_fontPos, Colors::White, 0.f, origin);
 }

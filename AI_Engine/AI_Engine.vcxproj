@@ -171,6 +171,9 @@
     <ClInclude Include="Headers\StateMachine.h" />
     <ClInclude Include="Headers\UIButton.h" />
     <ClInclude Include="Headers\UIEntity.h" />
+    <ClInclude Include="Headers\Wife.h" />
+    <ClInclude Include="Headers\WifeSM.h" />
+    <ClInclude Include="Headers\WifeStates.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
@@ -196,6 +199,9 @@
     <ClCompile Include="Sources\StateMachine.cpp" />
     <ClCompile Include="Sources\UIButton.cpp" />
     <ClCompile Include="Sources\UIEntity.cpp" />
+    <ClCompile Include="Sources\Wife.cpp" />
+    <ClCompile Include="Sources\WifeSM.cpp" />
+    <ClCompile Include="Sources\WifeStates.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

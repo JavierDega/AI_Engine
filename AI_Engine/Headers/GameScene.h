@@ -30,8 +30,6 @@ public:
 	void LoadScene1(ID3D11Device1* device);
 
 	//Utility functions
-	BaseEntity* AddEntity();
-	BaseEntity * AddEntity(ID3D11Device1* device);
 	void InsertEntity(BaseEntity* entity);
 	void RemoveEntity(BaseEntity* entity);
 	void RemoveAllEntities();
