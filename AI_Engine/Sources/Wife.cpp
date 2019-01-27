@@ -91,10 +91,10 @@ void Wife::Update(float elapsedTime)
 		{
 		case COOKING:
 			//Lerp to goal position
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(550, 650), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1220, 425), m_fracT);
 			break;
 		case DELIVERING_FOOD:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(800, 600), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1020, 425), m_fracT);
 			break;
 		}
 		//Check that lerp ended
@@ -111,7 +111,7 @@ void Wife::Render(DirectX::SpriteBatch * spriteBatch)
 	//@Optionally, render foodStack
 	if (!(m_foodStack + m_drinkStack == 0)) {
 		//@m_origin is the same, location is static
-		spriteBatch->Draw(m_foodStackTexture.Get(), Vector2 (800, 600));
+		spriteBatch->Draw(m_foodStackTexture.Get(), Vector2 (1020, 425));
 	}
 	//@Extra: draw font
 	const wchar_t * output = m_text.c_str();

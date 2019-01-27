@@ -74,7 +74,7 @@ void GameScene::LoadStartMenu(ID3D11Device1 * device)
 	RemoveAllEntities();
 
 	UIEntity* myUIBackground = new UIEntity(device);
-
+	myUIBackground->Initialize(device, L"Textures/menubackground.dds" , 0, 1, 0, 1);
 	UIEntity* myTitle = new UIEntity();
 	myTitle->Initialize(device, L"Textures/aititle.dds", 0.25, 0.75, 0, 0.5);
 	UIButton* myButton = new UIButton();
@@ -101,6 +101,21 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	GameEntity* myGameBackground = new GameEntity();
 	myGameBackground->Initialize(device, L"Textures/forestbackground.dds", Vector2(1920 / 2, 1080 / 2));
 
+	GameEntity* myMineIcon = new GameEntity();
+	myMineIcon->Initialize(device, L"Textures/mine.dds", Vector2(1250, 550));
+
+	GameEntity* myBedIcon = new GameEntity();
+	myBedIcon->Initialize(device, L"Textures/bed.dds", Vector2(675, 575));
+
+	GameEntity* myChestIcon = new GameEntity();
+	myChestIcon->Initialize(device, L"Textures/chest.dds", Vector2(925, 450));
+
+	GameEntity* myShopIcon = new GameEntity();
+	myShopIcon->Initialize(device, L"Textures/shop.dds", Vector2(925, 650));
+
+	GameEntity* myBowlIcon = new GameEntity();
+	myBowlIcon->Initialize(device, L"Textures/cookstand.dds", Vector2(1220, 425));
+
 	AnimatedEntity* myAnimEntity = new AnimatedEntity();
 	myAnimEntity->Initialize(device, L"Textures/bushanimated.dds", Vector2(500, 250), 3, 2);
 	
@@ -117,7 +132,7 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	myAnimEntity5->Initialize(device, L"Textures/bushanimated.dds", Vector2(1400, 650), 3, 2);
 
 	Wife* myWife = new Wife();
-	myWife->Initialize(device, Vector2(950, 550), 0.5f);
+	myWife->Initialize(device, Vector2(1220, 425), 0.5f);
 	
 	Miner* myMiner = new Miner();
 	myMiner->Initialize(device, Vector2(1000, 550), 0.5f);
@@ -136,6 +151,11 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	InsertEntity(myAnimEntity5);
 	//Background
 	InsertEntity(myGameBackground);
+	InsertEntity(myMineIcon);
+	InsertEntity(myBedIcon);
+	InsertEntity(myChestIcon);
+	InsertEntity(myShopIcon);
+	InsertEntity(myBowlIcon);
 	//UI
 	InsertEntity(myBackButton);
 
