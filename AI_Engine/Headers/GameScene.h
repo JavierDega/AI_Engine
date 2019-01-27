@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "BaseEntity.h"
-
+#include "Wife.h"
 
 //This class holds the data of the current GameScene
 //Update / Render / Find / Delete entities
@@ -35,6 +35,7 @@ public:
 	void RemoveAllEntities();
 	bool ContainsEntity(BaseEntity* entity);
 	bool ContainsEntity(BaseEntity* entity, int& index);
+	Wife * GetWife();
 	//Singleton
 	static GameScene* GetInstance();
 

@@ -16,6 +16,8 @@ public:
 
 
 	//Variables
+	//Graphic
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_foodStackTexture;
 	//Font
 	std::unique_ptr<DirectX::SpriteFont> m_font;
 	std::wstring m_text;

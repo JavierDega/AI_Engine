@@ -113,6 +113,7 @@ void Miner::Update(float elapsedTime)
 			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 900, 650 ), m_fracT);
 			break;
 		case HAVING_MEAL:
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(800, 600), m_fracT);
 			break;
 		}
 		//Check that lerp ended

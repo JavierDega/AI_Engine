@@ -31,12 +31,13 @@ public:
 
 	void Execute(Miner * miner);
 };
-
+//@Takes from food stack to refresh Thirstiness, and hunger.
 class HavingMeal :
 	public State<Miner>
 {
 public:
 
 	void Execute(Miner * miner);
+
 };
 

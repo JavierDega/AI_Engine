@@ -20,7 +20,6 @@ void DeliveringFood::Execute(Wife * wife)
 	
 	wife->m_foodStack += 5;
 	wife->m_drinkStack += 2;
-
 	//@Log (Also reset length)
 	wife->m_text = L"Mmm delicious meal!";
 }

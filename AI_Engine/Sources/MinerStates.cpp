@@ -50,7 +50,8 @@ void Drinking::Execute(Miner * miner)
 	//Left over gold?
 	miner->m_bankedGold -= moneyToFill;//MoneyToFill is 0
 
-	miner->m_thirstiness = 0;
+	miner->m_thirstiness -= 10;
+	if (miner->m_thirstiness < 0) miner->m_thirstiness = 0;
 	//@Log (Also reset length)
 	miner->m_text = L"Drinking!";
 }
@@ -58,15 +59,15 @@ void Drinking::Execute(Miner * miner)
 void HavingMeal::Execute(Miner * miner)
 {
 	//Iterate through UI elements to find possible clicked UI Button
-	GameScene* gs = GameScene::GetInstance();
-	for (unsigned int i = 0; i < gs->m_entities.size(); i++) {
-		//Look for entities which can be mouse pressed
-		Wife * wife = dynamic_cast<Wife *>(gs->m_entities[i]);
-		if (wife) {
-			//@Ideally always gets wife, otherwise, game over?
-			
-	
-		}
+	Wife * wife = GameScene::GetInstance()->GetWife();
+	if (wife) {
+		//@Ideally always gets wife, otherwise, game over?
+		miner->m_hunger -= wife->m_foodStack;
+		wife->m_foodStack = 0;
+		if (miner->m_hunger < 0) miner->m_hunger = 0;
+		miner->m_thirstiness -= wife->m_drinkStack;
+		wife->m_drinkStack = 0;
+		if (miner->m_thirstiness < 0) miner->m_thirstiness = 0;
 	}
 	//@Log (Also reset length)
 	miner->m_text = L"Having Meal!";

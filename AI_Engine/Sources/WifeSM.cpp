@@ -13,7 +13,7 @@ WifeSM::WifeSM(Wife * character)
 	m_charState = 0;
 	m_curState = new Cooking();
 	m_lastExec = 0;
-	m_execRate = 2.0f;
+	m_execRate = 1.0f;
 }
 
 

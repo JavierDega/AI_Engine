@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MinerSM.h"
-
 #include "MinerStates.h"
+#include "GameScene.h"
 
 MinerSM::MinerSM()
 {
@@ -14,7 +14,7 @@ MinerSM::MinerSM(Miner * character)
 	m_charState = 0;
 	m_curState = new MiningForGold();
 	m_lastExec = 0;
-	m_execRate = 2.0f;
+	m_execRate = 1.0f;
 }
 
 
@@ -43,7 +43,7 @@ void MinerSM::Update(float elapsedTime)
 }
 
 void MinerSM::HandleStateTransitions()
-{
+{	
 	//Handles state transitions
 	switch (m_charState)
 	{
@@ -56,9 +56,27 @@ void MinerSM::HandleStateTransitions()
 			ChangeState(RESTING);
 		}
 		else if (m_character->m_thirstiness >= 10) {
+			GameScene * gs = GameScene::GetInstance();
 			//@Two cases
-			//We can, or cannot afford a bottle
-			(m_character->m_gold + m_character->m_bankedGold >= 5) ? ChangeState(DRINKING) : ChangeState(RESTING);
+			//@Look for drinkStack
+			if (gs->GetWife()->m_drinkStack > 0) ChangeState(HAVING_MEAL);
+			else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+				ChangeState(DRINKING);
+			}
+			else {
+				//@Lose condition: Nowhere to drink from
+			}
+		}
+		else if (m_character->m_hunger >= 10) {
+			GameScene * gs = GameScene::GetInstance();
+			if (gs->GetWife()->m_foodStack > 0) ChangeState(HAVING_MEAL);
+			/*@@Could easily design a food shop very much like for DRINKING
+			else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+				ChangeState(DRINKING);
+			}*/
+			else {
+				//@Lose condition: Nowhere to eat from
+			}
 		}
 		break;
 	case BANKING_GOLD:
@@ -67,9 +85,27 @@ void MinerSM::HandleStateTransitions()
 			ChangeState(RESTING);
 		}
 		else if (m_character->m_thirstiness >= 10) {
+			GameScene * gs = GameScene::GetInstance();
 			//@Two cases
-			//We can, or cannot afford a bottle
-			(m_character->m_gold + m_character->m_bankedGold >= 5) ? ChangeState(DRINKING) : ChangeState(RESTING);
+			//@Look for drinkStack
+			if (gs->GetWife()->m_drinkStack > 0) ChangeState(HAVING_MEAL);
+			else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+				ChangeState(DRINKING);
+			}
+			else {
+				//@Lose condition: Nowhere to drink from
+			}
+		}
+		else if (m_character->m_hunger >= 10) {
+			GameScene * gs = GameScene::GetInstance();
+			if (gs->GetWife()->m_foodStack > 0) ChangeState(HAVING_MEAL);
+			/*@@Could easily design a food shop very much like for DRINKING
+			else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+				ChangeState(DRINKING);
+			}*/
+			else {
+				//@Lose condition: Nowhere to eat from
+			}
 		}
 		else ChangeState(MINING_GOLD);
 		break;
@@ -77,18 +113,49 @@ void MinerSM::HandleStateTransitions()
 		//@Transitions only when woken up
 		if (m_character->m_tiredness == 0) {
 			//@Check hunger before thirst, since Having_Meal will decrease thirstiness too
-			if (m_character->m_thirstiness >= 10) {
+		    if (m_character->m_thirstiness >= 10) {
+				GameScene * gs = GameScene::GetInstance();
 				//@Two cases
-				//We can, or cannot afford a bottle
-				(m_character->m_gold + m_character->m_bankedGold >= 5) ? ChangeState(DRINKING) : ChangeState(RESTING);
+				//@Look for drinkStack
+				if (gs->GetWife()->m_drinkStack > 0) ChangeState(HAVING_MEAL);
+				else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+					ChangeState(DRINKING);
+				}
+				else {
+					//@Lose condition: Nowhere to drink from
+				}
+			}
+			else if (m_character->m_hunger >= 10) {
+				GameScene * gs = GameScene::GetInstance();
+				if (gs->GetWife()->m_foodStack > 0) ChangeState(HAVING_MEAL);
+				/*@@Could easily design a food shop very much like for DRINKING
+				else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+					ChangeState(DRINKING);
+				}*/
+				else {
+					//@Lose condition: Nowhere to eat from
+				}
 			}
 			else ChangeState(MINING_GOLD);
 		}
 		break;
 	case DRINKING:
+		if (m_character->m_hunger >= 10) {
+			GameScene * gs = GameScene::GetInstance();
+			if (gs->GetWife()->m_foodStack > 0) ChangeState(HAVING_MEAL);
+			/*@@Could easily design a food shop very much like for DRINKING
+			else if (m_character->m_gold + m_character->m_bankedGold >= 5) {
+				ChangeState(DRINKING);
+			}*/
+			else {
+				//@Lose condition: Nowhere to eat from
+			}
+		}
 		ChangeState(MINING_GOLD);
 		break;
 	case HAVING_MEAL:
+		//@Transitions
+		ChangeState(MINING_GOLD);
 		break;
 	}
 }
@@ -111,6 +178,9 @@ void MinerSM::ChangeState(int newState)
 	}
 	if (newState == DRINKING) {
 		m_curState = new Drinking();
+	}
+	if (newState == HAVING_MEAL) {
+		m_curState = new HavingMeal();
 	}
 	m_charState = newState;
 	m_character->m_animator->Load(m_character->m_animatedTextures[newState].Get(), 2, 2);

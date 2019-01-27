@@ -115,12 +115,14 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	
 	AnimatedEntity* myAnimEntity5 = new AnimatedEntity();
 	myAnimEntity5->Initialize(device, L"Textures/bushanimated.dds", Vector2(1400, 650), 3, 2);
+
+	Wife* myWife = new Wife();
+	myWife->Initialize(device, Vector2(950, 550), 0.5f);
 	
 	Miner* myMiner = new Miner();
 	myMiner->Initialize(device, Vector2(1000, 550), 0.5f);
 
-	Wife* myWife = new Wife();
-	myWife->Initialize(device, Vector2(950, 550), 0.5f);
+
 	//Insert in vector
 	//Wife
 	InsertEntity(myWife);
@@ -200,6 +202,18 @@ bool GameScene::ContainsEntity(BaseEntity *entity, int & index)
 		}
 	}
 	return false;
+}
+
+Wife * GameScene::GetWife()
+{
+	for (unsigned int i = 0; i < m_entities.size(); i++) {
+		//Look for entities which can be mouse pressed
+		Wife * wife = dynamic_cast<Wife *>(m_entities[i]);
+		if (wife) {
+			return wife;
+		}
+	}
+	return nullptr;
 }
 
 GameScene * GameScene::GetInstance()

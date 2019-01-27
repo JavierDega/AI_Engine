@@ -22,6 +22,7 @@ Wife::~Wife()
 	delete m_stateMachine;
 	m_stateMachine = nullptr;
 	m_font.reset();
+	m_foodStackTexture.Reset();
 }
 
 void Wife::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
@@ -33,6 +34,11 @@ void Wife::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 scree
 		CreateDDSTextureFromFile(device, L"Textures/wifeidle.dds",
 			resource.GetAddressOf(),
 			m_texture.ReleaseAndGetAddressOf())
+	);
+	DX::ThrowIfFailed(
+		CreateDDSTextureFromFile(device, L"Textures/foodStack.dds",
+			resource.GetAddressOf(),
+			m_foodStackTexture.ReleaseAndGetAddressOf())
 	);
 	ComPtr<ID3D11Texture2D> tex;
 	DX::ThrowIfFailed(resource.As(&tex));
@@ -102,6 +108,11 @@ void Wife::Update(float elapsedTime)
 void Wife::Render(DirectX::SpriteBatch * spriteBatch)
 {
 	AnimatedEntity::Render(spriteBatch);
+	//@Optionally, render foodStack
+	if (!(m_foodStack + m_drinkStack == 0)) {
+		//@m_origin is the same, location is static
+		spriteBatch->Draw(m_foodStackTexture.Get(), Vector2 (800, 600));
+	}
 	//@Extra: draw font
 	const wchar_t * output = m_text.c_str();
 	Vector2 m_fontPos = Vector2(m_screenPos.x, m_screenPos.y - 50);
@@ -109,4 +120,5 @@ void Wife::Render(DirectX::SpriteBatch * spriteBatch)
 
 	m_font->DrawString(spriteBatch, output,
 		m_fontPos, Colors::White, 0.f, origin);
+
 }

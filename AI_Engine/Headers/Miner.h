@@ -2,6 +2,7 @@
 
 #include "AnimatedEntity.h"
 #include "StateMachine.h"
+#include "Wife.h"
 class Miner :
 	public AnimatedEntity
 {
