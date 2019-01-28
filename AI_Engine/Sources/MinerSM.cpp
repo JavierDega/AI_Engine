@@ -12,7 +12,7 @@ MinerSM::MinerSM(Miner * character)
 	m_charState = 0;
 	m_curState = new MiningForGold();
 	m_lastExec = 0;
-	m_execRate = 0.5f;
+	m_execRate = 1.5f;
 }
 
 

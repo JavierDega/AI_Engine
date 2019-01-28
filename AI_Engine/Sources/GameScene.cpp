@@ -84,11 +84,11 @@ void GameScene::LoadStartMenu(ID3D11Device1 * device)
 	RemoveAllEntities();
 
 	UIEntity* myUIBackground = new UIEntity(0, 1, 0, 1);
-	myUIBackground->Initialize(device, L"Textures/menubackground.dds");
-	UIEntity* myTitle = new UIEntity(0.25, 0.75, 0, 0.5);
-	myTitle->Initialize(device, L"Textures/aititle.dds");
-	UIButton* myButton = new UIButton(ButtonType::LOADSCENE1, 0.3, 0.55, 0.5, 0.6);
-	myButton->Initialize(device, L"Textures/fsmbutton.dds");
+	myUIBackground->Initialize(device, L"Textures/menger.dds");
+	UIEntity* myTitle = new UIEntity(0.25, 0.75, 0, 0.4);
+	myTitle->Initialize(device, L"Textures/aitoolbox.dds");
+	UIButton* myButton = new UIButton(ButtonType::LOADSCENE1, 0.4, 0.60, 0.5, 0.6);
+	myButton->Initialize(device, L"Textures/goldrushbutton.dds");
 
 
 	InsertEntity(myUIBackground);
@@ -105,7 +105,7 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 
 	//Initialize:
 	//The Scene1 consists of a static background Texture (Mine field, other stuff?)
-	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.1, 0, 0.05);
+	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.15, 0, 0.075);
 	myBackButton->Initialize(device, L"Textures/backbutton.dds");
 
 	ClickerButton * myGoldButton = new ClickerButton(ButtonType::INCREASEGOLD, 0, 0.1, 0.2, 0.25, 5);
@@ -133,19 +133,47 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	myBowlIcon->Initialize(device, L"Textures/cookstand.dds");
 
 	AnimatedEntity* myAnimEntity = new AnimatedEntity(Vector2(500, 250));
-	myAnimEntity->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 3, 2);
+	myAnimEntity->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity2 = new AnimatedEntity(Vector2(300, 550));
-	myAnimEntity2->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 3, 2);
+	myAnimEntity2->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity3 = new AnimatedEntity(Vector2(200, 450));
-	myAnimEntity3->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 3, 2);
+	myAnimEntity3->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity4 = new AnimatedEntity(Vector2(1200, 800));
-	myAnimEntity4->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 3, 2);
+	myAnimEntity4->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
-	AnimatedEntity* myAnimEntity5 = new AnimatedEntity(Vector2(1400, 650));
-	myAnimEntity5->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 3, 2);
+	AnimatedEntity* myAnimEntity5 = new AnimatedEntity(Vector2(1400, 100));
+	myAnimEntity5->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity6 = new AnimatedEntity(Vector2(1400, 350));
+	myAnimEntity6->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity7 = new AnimatedEntity(Vector2(1400, 650));
+	myAnimEntity7->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity8 = new AnimatedEntity(Vector2(1450, 450));
+	myAnimEntity8->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity9 = new AnimatedEntity(Vector2(1200, 150));
+	myAnimEntity9->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity10 = new AnimatedEntity(Vector2(1000, 250));
+	myAnimEntity10->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	
+	AnimatedEntity* myAnimEntity11 = new AnimatedEntity(Vector2(750, 225));
+	myAnimEntity11->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity12 = new AnimatedEntity(Vector2(600, 850));
+	myAnimEntity12->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity13 = new AnimatedEntity(Vector2(400, 750));
+	myAnimEntity13->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity14 = new AnimatedEntity(Vector2(800, 850));
+	myAnimEntity14->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
 
 	Wife* myWife = new Wife(Vector2(1220, 425), 0.5f);
 	myWife->Initialize(device);
@@ -159,12 +187,6 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	InsertEntity(myWife);
 	//Miner
 	InsertEntity(myMiner);
-	//Anim entities
-	InsertEntity(myAnimEntity);
-	InsertEntity(myAnimEntity2);
-	InsertEntity(myAnimEntity3);
-	InsertEntity(myAnimEntity4);
-	InsertEntity(myAnimEntity5);
 
 	//Background
 	InsertEntity(myGameBackground);
@@ -173,6 +195,21 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	InsertEntity(myChestIcon);
 	InsertEntity(myShopIcon);
 	InsertEntity(myBowlIcon);
+	//Anim entities
+	InsertEntity(myAnimEntity);
+	InsertEntity(myAnimEntity2);
+	InsertEntity(myAnimEntity3);
+	InsertEntity(myAnimEntity4);
+	InsertEntity(myAnimEntity5);
+	InsertEntity(myAnimEntity6);
+	InsertEntity(myAnimEntity7);
+	InsertEntity(myAnimEntity8);
+	InsertEntity(myAnimEntity9);
+	InsertEntity(myAnimEntity10);
+	InsertEntity(myAnimEntity11);
+	InsertEntity(myAnimEntity12);
+	InsertEntity(myAnimEntity13);
+	InsertEntity(myAnimEntity14);
 	//UI
 	InsertEntity(myBackButton);
 	InsertEntity(myGoldButton);

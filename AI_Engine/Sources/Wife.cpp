@@ -74,10 +74,10 @@ void Wife::Update(float elapsedTime)
 		{
 		case COOKING:
 			//Lerp to goal position
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1220, 425), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1175, 425), m_fracT);
 			break;
 		case DELIVERING_FOOD:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1020, 425), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1050, 425), m_fracT);
 			break;
 		}
 		//Check that lerp ended

@@ -86,16 +86,16 @@ void Miner::Update(float elapsedTime)
 			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 1200, 550 ), m_fracT);
 			break;
 		case BANKING_GOLD:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 900, 450 ), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 925, 475 ), m_fracT);
 			break;
 		case RESTING:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 650, 550 ), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 675, 575 ), m_fracT);
 			break;
 		case DRINKING:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 900, 650 ), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 925, 675 ), m_fracT);
 			break;
 		case HAVING_MEAL:
-			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1020, 425), m_fracT);
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2(1050, 475), m_fracT);
 			break;
 		}
 		//Check that lerp ended
