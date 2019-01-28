@@ -111,10 +111,10 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	ClickerButton * myGoldButton = new ClickerButton(ButtonType::INCREASEGOLD, 0, 0.1, 0.2, 0.25, 5);
 	myGoldButton->Initialize(device, L"Textures/goldbutton.dds");
 
-	//ClickerButton * myCookButton = new ClickerButton(ButtonType::INCREASECOOK, 0, 0.1, 0.3, 0.35, 5);
-	//myCookButton->Initialize(device, L"Textures/cookbutton.dds");
+	ClickerButton * myCookButton = new ClickerButton(ButtonType::INCREASECOOK, 0, 0.1, 0.3, 0.35, 5);
+	myCookButton->Initialize(device, L"Textures/cookbutton.dds");
 
-	GameEntity* myGameBackground = new GameEntity(Vector2(1920 / 2, 1080 / 2), 0.6f);
+	GameEntity* myGameBackground = new GameEntity(Vector2(1920 / 2, 1080 / 2), 0.7f);
 	myGameBackground->Initialize(device, L"Textures/forestbackground.dds");
 
 	GameEntity* myMineIcon = new GameEntity(Vector2(1250, 550));
@@ -176,7 +176,7 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	//UI
 	InsertEntity(myBackButton);
 	InsertEntity(myGoldButton);
-	//InsertEntity(myCookButton);
+	InsertEntity(myCookButton);
 
 	InitWindow(m_currentViewport);
 }
