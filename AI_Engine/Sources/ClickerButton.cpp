@@ -8,7 +8,6 @@ using namespace SimpleMath;
 ClickerButton::ClickerButton(ButtonType type, float leftRect, float rightRect, float topRect, float bottomRect, unsigned int clickIterator)
 	: UIButton(type, leftRect, rightRect, topRect, bottomRect), m_clickIterator(clickIterator), m_clicks(0)
 {
-
 }
 
 
@@ -19,13 +18,10 @@ ClickerButton::~ClickerButton()
 
 void ClickerButton::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 {
-	//Load texture
-	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, fileName, nullptr, m_texture.ReleaseAndGetAddressOf())
-	);
-
+	UIButton::Initialize(device, fileName );
 	//@Font
 	m_font = std::make_unique<SpriteFont>(device, L"Textures/myfile.spritefont");
+
 }
 
 void ClickerButton::Render(DirectX::SpriteBatch * spriteBatch)

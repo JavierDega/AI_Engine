@@ -12,7 +12,6 @@ class MinerSM :
 	public StateMachine<Miner>
 {
 public:
-	MinerSM();
 	MinerSM(Miner * character);
 	~MinerSM();
 	void Update(float elapsedTime)override;

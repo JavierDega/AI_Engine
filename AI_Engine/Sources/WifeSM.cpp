@@ -4,10 +4,6 @@
 
 using namespace std;
 
-WifeSM::WifeSM()
-{
-}
-
 WifeSM::WifeSM(Wife * character)
 {
 	m_character = character;
@@ -15,7 +11,7 @@ WifeSM::WifeSM(Wife * character)
 	m_charState = 0;
 	m_curState = new Cooking();
 	m_lastExec = 0;
-	m_execRate = 1.5f;
+	m_execRate = 0.5f;
 }
 
 
@@ -73,5 +69,5 @@ void WifeSM::ChangeState(int newState)
 		m_curState = new DeliveringFood();
 	}
 	m_charState = newState;
-	m_character->m_animator->Load(m_character->m_animatedTextures[newState].Get(), 2, 2);
+	m_character->m_animator->Load(m_character->m_animatedTextures[newState + 1].Get(), 2, 2);
 }

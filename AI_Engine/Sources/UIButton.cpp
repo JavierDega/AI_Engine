@@ -11,15 +11,10 @@ UIButton::UIButton(ButtonType type, float leftRect, float rightRect, float topRe
 
 UIButton::~UIButton()
 {
-	bool debug;
 }
 
-void UIButton::Initialize(ID3D11Device1 * device, const wchar_t * filename) {
-
-	//Load texture
-	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, filename, nullptr, m_texture.ReleaseAndGetAddressOf())
-	);
+void UIButton::Initialize(ID3D11Device1 * device, const wchar_t * fileName) {
+	UIEntity::Initialize(device, fileName);
 }
 
 

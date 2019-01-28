@@ -9,7 +9,6 @@ class WifeSM :
 	public StateMachine<Wife>
 {
 public:
-	WifeSM();
 	WifeSM(Wife * character);
 	~WifeSM();
 

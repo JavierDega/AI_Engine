@@ -2,36 +2,30 @@
 #include "..\Headers\BaseEntity.h"
 
 using namespace DirectX;
+using namespace SimpleMath;
 using Microsoft::WRL::ComPtr;
 
-BaseEntity::BaseEntity()
+BaseEntity::BaseEntity(float layerDepth)
+	: m_layerDepth(layerDepth)
 {
 }
 
-BaseEntity::BaseEntity(ID3D11Device1* device)
+void BaseEntity::Initialize(ID3D11Device1* device, const wchar_t * fileName)
 {
 	//Fill m_texture
 	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, L"Textures/baseentity.dds", nullptr, m_texture.ReleaseAndGetAddressOf())
+		CreateDDSTextureFromFile(device, fileName, nullptr, m_texture.ReleaseAndGetAddressOf())
 	);
 }
-
 
 BaseEntity::~BaseEntity()
 {
 	m_texture.Reset();
 }
 
-void BaseEntity::InitWindow(D3D11_VIEWPORT newScreenViewport) {
-	//CreateResources call.
-
-}
 void BaseEntity::Render(DirectX::SpriteBatch * spriteBatch)
 {
-	spriteBatch->Draw(m_texture.Get(), SimpleMath::Vector2::Zero);
-}
-
-void BaseEntity::Update(float elapsedTime)
-{
+	//@Default layerDepth = 0;
+	spriteBatch->Draw(m_texture.Get(), Vector2::Zero, nullptr, Colors::White, 0.0f, Vector2::Zero, Vector2( 1, 1 ) , SpriteEffects_None, m_layerDepth);
 }
 

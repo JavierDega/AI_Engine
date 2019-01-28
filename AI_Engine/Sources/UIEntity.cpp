@@ -15,13 +15,9 @@ UIEntity::~UIEntity()
 	bool debug;
 }
 
-void UIEntity::Initialize(ID3D11Device1 * device, const wchar_t * filename)
+void UIEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 {
-	//Load texture
-	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, filename, nullptr, m_texture.ReleaseAndGetAddressOf())
-	);
-
+	BaseEntity::Initialize(device, fileName);
 }
 
 void UIEntity::InitWindow(D3D11_VIEWPORT newScreenViewport)

@@ -6,12 +6,11 @@ class AnimatedEntity :
 	public GameEntity
 {
 public:
-	AnimatedEntity();
-	AnimatedEntity(ID3D11Device1 * device);
+	AnimatedEntity(DirectX::SimpleMath::Vector2 screenPos = DirectX::SimpleMath::Vector2::Zero, float layerDepth = 0.5f);
 	//May need to be virtual , since it adds a vector of texture pointers
 	virtual ~AnimatedEntity();
 	//Init
-	virtual void Initialize(ID3D11Device1 * device, const wchar_t * fileName, DirectX::SimpleMath::Vector2 screenPos, int frameCount, int fps, float layerDepth = 0.5f);
+	virtual void Initialize(ID3D11Device1 * device, const wchar_t * fileName, const wchar_t * fileName2, int frameCount, int fps);
 	//Update
 	virtual void Update(float elapsedTime);
 	//Draw

@@ -6,10 +6,9 @@ using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
 
 //Constructor
-GameEntity::GameEntity()
+GameEntity::GameEntity(Vector2 screenPos, float layerDepth)
+	: m_screenPos(screenPos), BaseEntity(layerDepth)
 {
-	m_screenPos = Vector2(0, 0);
-	m_origin = Vector2(0, 0);
 }
 //Destructor
 GameEntity::~GameEntity()
@@ -17,7 +16,7 @@ GameEntity::~GameEntity()
 	bool debug;
 }
 
-void GameEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName, Vector2 screenPos)
+void GameEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 {
 	ComPtr<ID3D11Resource> resource;
 	//Fill m_texture
@@ -35,7 +34,6 @@ void GameEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName, Ve
 	m_origin.x = float(texDesc.Width / 2);
 	m_origin.y = float(texDesc.Height / 2);
 
-	m_screenPos = screenPos;
 }
 
 void GameEntity::InitWindow(D3D11_VIEWPORT newScreenViewport)
@@ -47,7 +45,7 @@ void GameEntity::InitWindow(D3D11_VIEWPORT newScreenViewport)
 
 void GameEntity::Render(DirectX::SpriteBatch * spriteBatch)
 {
-	spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, 0.0f, m_origin, Vector2(1,1), SpriteEffects_None, 1.0f);
+	spriteBatch->Draw(m_texture.Get(), m_screenPos, nullptr, Colors::White, 0.0f, m_origin, Vector2(1,1), SpriteEffects_None, m_layerDepth);
 }
 
 void GameEntity::Update(float elapsedTime)

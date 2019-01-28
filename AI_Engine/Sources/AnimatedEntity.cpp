@@ -4,16 +4,10 @@
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
-AnimatedEntity::AnimatedEntity()
+AnimatedEntity::AnimatedEntity(Vector2 screenPos, float layerDepth)
+	: GameEntity(screenPos, layerDepth)
 {
-
 }
-//Overloads
-AnimatedEntity::AnimatedEntity(ID3D11Device1 * device)
-{
-	Initialize(device, L"Textures/animatedentity.dds", Vector2(0, 0), 3, 3, 0.5f);
-}
-
 AnimatedEntity::~AnimatedEntity()
 {
 	m_animator.reset();
@@ -24,26 +18,9 @@ AnimatedEntity::~AnimatedEntity()
 	}
 }
 
-void AnimatedEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName, DirectX::SimpleMath::Vector2 screenPos, int frameCount, int fps, float layerDepth)
+void AnimatedEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName, const wchar_t * fileName2, int frameCount, int fps)
 {
-	//Original idle texture(Not animated)
-	ComPtr<ID3D11Resource> resource;
-	//Fill m_texture
-	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, L"Textures/animatedentitybase.dds",
-			resource.GetAddressOf(),
-			m_texture.ReleaseAndGetAddressOf())
-	);
-	ComPtr<ID3D11Texture2D> tex;
-	DX::ThrowIfFailed(resource.As(&tex));
-
-	CD3D11_TEXTURE2D_DESC texDesc;
-	tex->GetDesc(&texDesc);
-
-	m_origin.x = float(texDesc.Width / 2);
-	m_origin.y = float(texDesc.Height / 2);
-
-	m_screenPos = screenPos;
+	GameEntity::Initialize(device, fileName2);
 
 	//Animated Textures in vector (Ruled by enum?)
 
@@ -55,8 +32,8 @@ void AnimatedEntity::Initialize(ID3D11Device1 * device, const wchar_t * fileName
 	);
 	m_animatedTextures.push_back(m_animTexture);
 
-	//All defaults, last argument is layerDepth
-	m_animator = std::make_unique<AnimatedTexture>(XMFLOAT2(0, 0), 0.0f, 1.0f, layerDepth);
+	//Make with layerDepth
+	m_animator = std::make_unique<AnimatedTexture>(m_origin, 0.0f, 1.0f, m_layerDepth);
 	m_animator->Load(m_animatedTextures[0].Get(), frameCount, fps);
 }
 

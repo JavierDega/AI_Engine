@@ -15,7 +15,7 @@ class UIButton :
 public:
 	UIButton(ButtonType type, float leftRect, float rightRect, float topRect, float bottomRect);
 	virtual ~UIButton();
-	virtual void Initialize(ID3D11Device1 * device, const wchar_t * filename);
+	virtual void Initialize(ID3D11Device1 * device, const wchar_t * fileName = L"Textures/uibutton.dds");
 	ButtonType GetType();
 	virtual bool QueryClick(ID3D11Device1 * device, int mX, int mY);
 	//Utility

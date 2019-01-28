@@ -6,7 +6,8 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
 
-Wife::Wife()
+Wife::Wife(DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
+	: AnimatedEntity(screenPos, layerDepth)
 {
 	//@Note: default constructor wont set attachedCharacter and might cause crashes
 	m_text = L"Provide us wealth my lord!";
@@ -25,30 +26,15 @@ Wife::~Wife()
 	m_foodStackTexture.Reset();
 }
 
-void Wife::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
+void Wife::Initialize(ID3D11Device1 * device)
 {
-	//Original idle texture(Not animated)
-	ComPtr<ID3D11Resource> resource;
-	//Fill m_texture
-	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, L"Textures/wifeidle.dds",
-			resource.GetAddressOf(),
-			m_texture.ReleaseAndGetAddressOf())
-	);
+	AnimatedEntity::Initialize(device, L"Textures/wifeidle.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, L"Textures/foodStack.dds",
-			resource.GetAddressOf(),
+			nullptr,
 			m_foodStackTexture.ReleaseAndGetAddressOf())
 	);
-	ComPtr<ID3D11Texture2D> tex;
-	DX::ThrowIfFailed(resource.As(&tex));
-
-	CD3D11_TEXTURE2D_DESC texDesc;
-	tex->GetDesc(&texDesc);
-
-	m_origin.x = float(texDesc.Width / 2);
-	m_origin.y = float(texDesc.Height / 2);
-	m_screenPos = screenPos;
 
 	//Animated Textures in vector (Ruled by MinerSM enum)
 	//Ideally the resurce width and height are the same
@@ -61,12 +47,9 @@ void Wife::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 scree
 		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
 	m_animatedTextures.push_back(m_animTexture);
 
-	//All defaults, last argument is layerDepth
-	m_animator = std::make_unique<AnimatedTexture>(XMFLOAT2(0, 0), 0.0f, 1.0f, layerDepth);
-	m_animator->Load(m_animatedTextures[0].Get(), 2, 2);
-
 	//@Font
 	m_font = std::make_unique<SpriteFont>(device, L"Textures/myfile.spritefont");
+	m_animator->Load(m_animatedTextures[1].Get(), 2, 2);
 }
 
 void Wife::Update(float elapsedTime)

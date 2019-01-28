@@ -7,9 +7,10 @@ class Miner :
 	public AnimatedEntity
 {
 public:
-	Miner();
+	Miner(DirectX::SimpleMath::Vector2 screenPos = DirectX::SimpleMath::Vector2::Zero, float layerDepth = 0.4f);
 	~Miner();
-	virtual void Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth = 0.5f);
+	//@Default animation textures
+	virtual void Initialize(ID3D11Device1 * device);
 	void Update(float elapsedTime);
 	//Draw
 	virtual void Render(DirectX::SpriteBatch * spriteBatch);

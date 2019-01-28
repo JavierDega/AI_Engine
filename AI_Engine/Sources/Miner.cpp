@@ -6,7 +6,8 @@ using namespace DirectX;
 using namespace DirectX::SimpleMath;
 using namespace Microsoft::WRL;
 
-Miner::Miner()
+Miner::Miner(DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
+	: AnimatedEntity(screenPos, layerDepth)
 {
 	//@Note: default constructor wont set attachedCharacter and might cause crashes
 	m_text = L"Hello my trusty overlord!";
@@ -28,25 +29,9 @@ Miner::~Miner()
 	m_font.reset();
 }
 
-void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
+void Miner::Initialize(ID3D11Device1 * device)
 {
-	//Original idle texture(Not animated)
-	ComPtr<ID3D11Resource> resource;
-	//Fill m_texture
-	DX::ThrowIfFailed(
-		CreateDDSTextureFromFile(device, L"Textures/mineridle.dds",
-			resource.GetAddressOf(),
-			m_texture.ReleaseAndGetAddressOf())
-	);
-	ComPtr<ID3D11Texture2D> tex;
-	DX::ThrowIfFailed(resource.As(&tex));
-
-	CD3D11_TEXTURE2D_DESC texDesc;
-	tex->GetDesc(&texDesc);
-
-	m_origin.x = float(texDesc.Width / 2);
-	m_origin.y = float(texDesc.Height / 2);
-	m_screenPos = screenPos;
+	AnimatedEntity::Initialize(device, L"Textures/mineridle.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	//Animated Textures in vector (Ruled by MinerSM enum)
 	//Ideally the resurce width and height are the same
@@ -71,12 +56,9 @@ void Miner::Initialize(ID3D11Device1 * device, DirectX::SimpleMath::Vector2 scre
 		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
 	m_animatedTextures.push_back(m_animTexture);
 
-	//All defaults, last argument is layerDepth
-	m_animator = std::make_unique<AnimatedTexture>(XMFLOAT2(0, 0), 0.0f, 1.0f, layerDepth);
-	m_animator->Load(m_animatedTextures[0].Get(), 2, 2);
-
 	//@Font
 	m_font = std::make_unique<SpriteFont>(device, L"Textures/myfile.spritefont");
+	m_animator->Load(m_animatedTextures[1].Get(), 2, 2);
 }
 
 void Miner::Update(float elapsedTime)

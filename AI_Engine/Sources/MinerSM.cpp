@@ -5,10 +5,6 @@
 
 using namespace std;
 
-MinerSM::MinerSM()
-{
-}
-
 MinerSM::MinerSM(Miner * character)
 {
 	m_character = character;
@@ -16,7 +12,7 @@ MinerSM::MinerSM(Miner * character)
 	m_charState = 0;
 	m_curState = new MiningForGold();
 	m_lastExec = 0;
-	m_execRate = 1.5f;
+	m_execRate = 0.5f;
 }
 
 
@@ -35,11 +31,11 @@ void MinerSM::Update(float elapsedTime)
 		m_curState->Execute(m_character);
 
 		//@Log values
-		/*m_character->m_text += L" Gold: " + to_wstring(m_character->m_gold) +
+		m_character->m_text += L" Gold: " + to_wstring(m_character->m_gold) +
 			L" Bank: " + to_wstring(m_character->m_bankedGold) +
 			L" Tired: " + to_wstring(m_character->m_tiredness) +
 			L" Thirsty: " + to_wstring(m_character->m_thirstiness) +
-			L" Hungry: " + to_wstring(m_character->m_hunger);*/
+			L" Hungry: " + to_wstring(m_character->m_hunger);
 	}
 
 }
@@ -185,5 +181,5 @@ void MinerSM::ChangeState(int newState)
 		m_curState = new HavingMeal();
 	}
 	m_charState = newState;
-	m_character->m_animator->Load(m_character->m_animatedTextures[newState].Get(), 2, 2);
+	m_character->m_animator->Load(m_character->m_animatedTextures[newState + 1].Get(), 2, 2);
 }

@@ -9,7 +9,7 @@ public:
 	UIEntity(float leftRect = 0, float rightRect = 1, float topRect = 0, float bottomRect = 1);
 	virtual ~UIEntity();
 	//Init
-	virtual void Initialize(ID3D11Device1 * device, const wchar_t * filename = L"Textures/uientity.dds");
+	virtual void Initialize(ID3D11Device1 * device, const wchar_t * fileName = L"Textures/uientity.dds");
 	virtual void InitWindow(D3D11_VIEWPORT newScreenViewport);
 	virtual void Render(DirectX::SpriteBatch * spriteBatch);
 	virtual void Update(float elapsedTime);
