@@ -2,6 +2,8 @@
 #include "..\Headers\WifeSM.h"
 #include "WifeStates.h"
 
+using namespace std;
+
 WifeSM::WifeSM()
 {
 }

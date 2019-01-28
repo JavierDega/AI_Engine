@@ -1,7 +1,6 @@
 #pragma once
 #include "State.h"
 #include <iostream>
-using namespace std;
 
 //Base class for our FSM characters. Made to be inheritted and its methods overriden.
 template <class T>

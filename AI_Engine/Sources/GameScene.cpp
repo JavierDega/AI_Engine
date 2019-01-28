@@ -3,6 +3,7 @@
 
 #include "GameEntity.h"
 #include "UIButton.h"
+#include "ClickerButton.h"
 #include "AnimatedEntity.h"
 #include "Miner.h"
 #include "Wife.h"
@@ -18,6 +19,15 @@ GameScene::GameScene()
 
 }
 
+GameScene * GameScene::GetInstance()
+{
+	//Singleton
+	if (m_instance == NULL)
+	{
+		m_instance = new GameScene();
+	}
+	return m_instance;
+}
 
 GameScene::~GameScene()
 {
@@ -73,12 +83,12 @@ void GameScene::LoadStartMenu(ID3D11Device1 * device)
 	//Deplete vector, call destructors
 	RemoveAllEntities();
 
-	UIEntity* myUIBackground = new UIEntity(device);
-	myUIBackground->Initialize(device, L"Textures/menubackground.dds" , 0, 1, 0, 1);
-	UIEntity* myTitle = new UIEntity();
-	myTitle->Initialize(device, L"Textures/aititle.dds", 0.25, 0.75, 0, 0.5);
-	UIButton* myButton = new UIButton();
-	myButton->Initialize(device, L"Textures/fsmbutton.dds", ButtonType::LOADSCENE1, 0.3, 0.55, 0.5, 0.6);
+	UIEntity* myUIBackground = new UIEntity(0, 1, 0, 1);
+	myUIBackground->Initialize(device, L"Textures/menubackground.dds");
+	UIEntity* myTitle = new UIEntity(0.25, 0.75, 0, 0.5);
+	myTitle->Initialize(device, L"Textures/aititle.dds");
+	UIButton* myButton = new UIButton(ButtonType::LOADSCENE1, 0.3, 0.55, 0.5, 0.6);
+	myButton->Initialize(device, L"Textures/fsmbutton.dds");
 
 
 	InsertEntity(myUIBackground);
@@ -95,8 +105,11 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 
 	//Initialize:
 	//The Scene1 consists of a static background Texture (Mine field, other stuff?)
-	UIButton * myBackButton = new UIButton();
-	myBackButton->Initialize(device, L"Textures/backbutton.dds", ButtonType::LOADMENU, 0, 0.1, 0, 0.1);
+	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.1, 0, 0.05);
+	myBackButton->Initialize(device, L"Textures/backbutton.dds");
+
+	ClickerButton * myGoldButton = new ClickerButton(ButtonType::INCREASEGOLD, 0, 0.1, 0.2, 0.25, 5);
+	myGoldButton->Initialize(device, L"Textures/goldbutton.dds");
 
 	GameEntity* myGameBackground = new GameEntity();
 	myGameBackground->Initialize(device, L"Textures/forestbackground.dds", Vector2(1920 / 2, 1080 / 2));
@@ -158,6 +171,7 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	InsertEntity(myBowlIcon);
 	//UI
 	InsertEntity(myBackButton);
+	InsertEntity(myGoldButton);
 
 	InitWindow(m_currentViewport);
 }
@@ -236,12 +250,15 @@ Wife * GameScene::GetWife()
 	return nullptr;
 }
 
-GameScene * GameScene::GetInstance()
+Miner * GameScene::GetMiner()
 {
-	//Singleton
-	if (m_instance == NULL)
-	{
-		m_instance = new GameScene();
+	for (unsigned int i = 0; i < m_entities.size(); i++) {
+		//Look for entities which can be mouse pressed
+		Miner * miner = dynamic_cast<Miner *>(m_entities[i]);
+		if (miner) {
+			return miner;
+		}
 	}
 	return m_instance;
 }
+

@@ -3,6 +3,8 @@
 #include "MinerStates.h"
 #include "GameScene.h"
 
+using namespace std;
+
 MinerSM::MinerSM()
 {
 }
@@ -33,11 +35,11 @@ void MinerSM::Update(float elapsedTime)
 		m_curState->Execute(m_character);
 
 		//@Log values
-		m_character->m_text += L" Gold: " + to_wstring(m_character->m_gold) +
+		/*m_character->m_text += L" Gold: " + to_wstring(m_character->m_gold) +
 			L" Bank: " + to_wstring(m_character->m_bankedGold) +
 			L" Tired: " + to_wstring(m_character->m_tiredness) +
 			L" Thirsty: " + to_wstring(m_character->m_thirstiness) +
-			L" Hungry: " + to_wstring(m_character->m_hunger);
+			L" Hungry: " + to_wstring(m_character->m_hunger);*/
 	}
 
 }

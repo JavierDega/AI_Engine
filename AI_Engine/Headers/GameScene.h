@@ -2,6 +2,7 @@
 #include <vector>
 #include "BaseEntity.h"
 #include "Wife.h"
+#include "Miner.h"
 
 //This class holds the data of the current GameScene
 //Update / Render / Find / Delete entities
@@ -18,6 +19,8 @@ private:
 	/*Private constructor to prevent instancing*/
 	GameScene(void);
 public:
+	//Singleton
+	static GameScene* GetInstance();
 	~GameScene(void);
 	//Game events
 	void Initialize(ID3D11Device1* device, ID3D11DeviceContext1 * deviceContext);
@@ -36,8 +39,7 @@ public:
 	bool ContainsEntity(BaseEntity* entity);
 	bool ContainsEntity(BaseEntity* entity, int& index);
 	Wife * GetWife();
-	//Singleton
-	static GameScene* GetInstance();
+	Miner * GetMiner();
 
 	//Variables
 	//Current viewport

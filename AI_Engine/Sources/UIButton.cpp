@@ -1,17 +1,12 @@
 #include "pch.h"
 #include "..\Headers\UIButton.h"
-
 #include "GameScene.h"
+
 using namespace DirectX;
 
-UIButton::UIButton()
+UIButton::UIButton(ButtonType type, float leftRect, float rightRect, float topRect, float bottomRect)
+	: m_type(type), UIEntity(leftRect, rightRect, topRect, bottomRect)
 {
-}
-
-UIButton::UIButton(ID3D11Device1 * device)
-{
-	//Default?
-	Initialize(device, L"Textures/fsmbutton.dds", ButtonType::LOADMENU , 0.25, 0.75, 0.25, 0.75);
 }
 
 UIButton::~UIButton()
@@ -19,17 +14,12 @@ UIButton::~UIButton()
 	bool debug;
 }
 
-void UIButton::Initialize(ID3D11Device1 * device, const wchar_t * filename, ButtonType type, float leftRect, float rightRect, float topRect, float bottomRect) {
+void UIButton::Initialize(ID3D11Device1 * device, const wchar_t * filename) {
 
 	//Load texture
 	DX::ThrowIfFailed(
 		CreateDDSTextureFromFile(device, filename, nullptr, m_texture.ReleaseAndGetAddressOf())
 	);
-	m_type = type;
-	m_leftRect = leftRect;
-	m_topRect = topRect;
-	m_rightRect = rightRect;
-	m_bottomRect = bottomRect;
 }
 
 
@@ -56,3 +46,4 @@ bool UIButton::QueryClick(ID3D11Device1 * device, int mX, int mY)
 	}
 	return false;
 }
+
