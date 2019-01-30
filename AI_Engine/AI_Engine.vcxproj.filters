@@ -75,6 +75,10 @@
     <ClInclude Include="Headers\ClickerButton.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\BTNodes.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\Blackboard.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -131,6 +135,10 @@
     <ClCompile Include="Sources\ClickerButton.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\BTNodes.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Blackboard.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

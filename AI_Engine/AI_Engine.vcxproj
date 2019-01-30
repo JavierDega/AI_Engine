@@ -161,6 +161,8 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Headers\AnimatedEntity.h" />
     <ClInclude Include="Headers\BaseEntity.h" />
+    <ClInclude Include="Headers\Blackboard.h" />
+    <ClInclude Include="Headers\BTNodes.h" />
     <ClInclude Include="Headers\ClickerButton.h" />
     <ClInclude Include="Headers\GameEntity.h" />
     <ClInclude Include="Headers\GameScene.h" />
@@ -190,6 +192,8 @@
     </ClCompile>
     <ClCompile Include="Sources\AnimatedEntity.cpp" />
     <ClCompile Include="Sources\BaseEntity.cpp" />
+    <ClCompile Include="Sources\Blackboard.cpp" />
+    <ClCompile Include="Sources\BTNodes.cpp" />
     <ClCompile Include="Sources\ClickerButton.cpp" />
     <ClCompile Include="Sources\GameEntity.cpp" />
     <ClCompile Include="Sources\GameScene.cpp" />
