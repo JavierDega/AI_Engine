@@ -166,6 +166,7 @@
     <ClInclude Include="Headers\ClickerButton.h" />
     <ClInclude Include="Headers\GameEntity.h" />
     <ClInclude Include="Headers\GameScene.h" />
+    <ClInclude Include="Headers\Goblin.h" />
     <ClInclude Include="Headers\Input.h" />
     <ClInclude Include="Headers\Miner.h" />
     <ClInclude Include="Headers\MinerSM.h" />
@@ -197,6 +198,7 @@
     <ClCompile Include="Sources\ClickerButton.cpp" />
     <ClCompile Include="Sources\GameEntity.cpp" />
     <ClCompile Include="Sources\GameScene.cpp" />
+    <ClCompile Include="Sources\Goblin.cpp" />
     <ClCompile Include="Sources\Input.cpp" />
     <ClCompile Include="Sources\Miner.cpp" />
     <ClCompile Include="Sources\MinerSM.cpp" />

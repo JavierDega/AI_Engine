@@ -14,6 +14,12 @@
     <Filter Include="Headers">
       <UniqueIdentifier>{74ccbbe4-c8b7-4928-8a0a-e7f9812869b7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headers\AI">
+      <UniqueIdentifier>{69482bde-9eef-473e-a790-7e13534a2d2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\AI">
+      <UniqueIdentifier>{9f138d2b-e5d2-4b50-9b9a-db33735684b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -36,18 +42,6 @@
     <ClInclude Include="Headers\Miner.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\MinerSM.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\MinerStates.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\State.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\StateMachine.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\UIButton.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -66,19 +60,36 @@
     <ClInclude Include="Headers\Wife.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\WifeSM.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Headers\WifeStates.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Headers\ClickerButton.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\BTNodes.h">
+    <ClInclude Include="Headers\Goblin.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\Blackboard.h" />
+    <ClInclude Include="Headers\Blackboard.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\BTNodes.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\MinerStates.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\MinerSM.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\State.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\StateMachine.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\WifeSM.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\WifeStates.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -105,40 +116,45 @@
     <ClCompile Include="Sources\Miner.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\MinerSM.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\MinerStates.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\State.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\StateMachine.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\UIButton.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Sources\UIEntity.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\WifeSM.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\Wife.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\WifeStates.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Sources\ClickerButton.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\BTNodes.cpp">
+    <ClCompile Include="Sources\Goblin.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\Blackboard.cpp" />
+    <ClCompile Include="Sources\BTNodes.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Blackboard.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\MinerSM.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\MinerStates.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\State.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\StateMachine.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\WifeSM.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\WifeStates.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
