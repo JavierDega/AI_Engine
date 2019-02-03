@@ -22,7 +22,7 @@ enum BTStatus
 class BTNode
 {
 public:
-	BTNode(Blackboard bb);
+	BTNode(Blackboard * bb);
 
 	virtual BTStatus Execute() = 0;
 
@@ -35,7 +35,7 @@ public:
 	virtual void Reset();
 
 	protected:
-	Blackboard bb;
+	Blackboard * bb;
 };
 
 /// <summary>
@@ -46,7 +46,7 @@ class CompositeNode :
 	public BTNode
 {
 public:
-	CompositeNode(Blackboard bb);
+	CompositeNode(Blackboard * bb);
 	~CompositeNode();
 	virtual void AddChild(BTNode * child);
 	/// <summary>
@@ -67,7 +67,7 @@ class Selector :
 	public CompositeNode
 {
 public:
-	Selector(Blackboard bb);
+	Selector(Blackboard * bb);
 
 	virtual BTStatus Execute();
 };
@@ -80,7 +80,7 @@ class Sequence :
 	public CompositeNode
 {
 public:
-	Sequence(Blackboard bb);
+	Sequence(Blackboard * bb);
 
 	virtual BTStatus Execute();
 };
@@ -92,7 +92,7 @@ class DecoratorNode :
 	public BTNode
 {
 public:
-	DecoratorNode(BTNode * WrappedNode, Blackboard bb);
+	DecoratorNode(BTNode * WrappedNode, Blackboard * bb);
 	~DecoratorNode();
 	BTNode * GetWrappedNode();
 
@@ -114,7 +114,7 @@ class InverterDecorator :
 	public DecoratorNode
 {
 public:
-	InverterDecorator(BTNode * WrappedNode, Blackboard bb);
+	InverterDecorator(BTNode * WrappedNode, Blackboard * bb);
 
 	virtual BTStatus Execute();
 };
@@ -126,7 +126,7 @@ class ConditionalDecorator :
 	public DecoratorNode
 {
 public:
-	ConditionalDecorator(BTNode * WrappedNode, Blackboard bb);
+	ConditionalDecorator(BTNode * WrappedNode, Blackboard * bb);
 
 	virtual bool CheckStatus() = 0;
 

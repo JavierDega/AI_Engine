@@ -4,7 +4,8 @@
 using namespace DirectX;
 using namespace SimpleMath;
 
-Goblin::Goblin(DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
+Goblin::Goblin(Vector2 screenPos, bool pickPocket, bool stealFood, float layerDepth)
+	: GameEntity(screenPos, layerDepth), m_bb(pickPocket, stealFood)
 {
 }
 
@@ -12,7 +13,7 @@ Goblin::~Goblin()
 {
 	delete m_rootNode;
 }
-
+//@Dynamically spawned, we have no device
 void Goblin::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 {
 	GameEntity::Initialize(device, fileName);
@@ -23,29 +24,18 @@ void Goblin::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 	//@Build designed behaviour tree
 	//@Root node is a sequence, regone through every frame
 	//->Evaluate Strategy(Desirability? ideally set goal location)->MoveTowardsLocation(If it's there, leave it/What if two goblins overlap?)->Execute Action (Selector?)
-	Sequence * rootChild = new Sequence(m_bb);
+	Selector * rootChild = new Selector(&m_bb);
 	m_rootNode = rootChild;
-	
-
-
 	//rootChild->AddChild(); to add children nodes in BT
 }
 
+PickPocketDecorator::PickPocketDecorator(BTNode * WrappedNode, Blackboard * bb) 
+	: ConditionalDecorator(WrappedNode, bb)
+{
+}
+
 //@BTNodes
-//DefineGoal
-DefineGoal::DefineGoal(Blackboard bb)
-	: BTNode(bb)
+bool PickPocketDecorator::CheckStatus()
 {
-	//Possible goals:
-	//@To pickpocket miner
-	//@To harass wife
-}
-
-BTStatus DefineGoal::Execute()
-{
-	return BTStatus();
-}
-
-void DefineGoal::Reset()
-{
+	return bb->m_pickPocket;
 }

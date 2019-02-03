@@ -3,8 +3,10 @@
 
 
 
-Blackboard::Blackboard()
+Blackboard::Blackboard( bool pickPocket, bool stealFood)
+	: m_pickPocket(pickPocket), m_stealFood(stealFood)
 {
+
 }
 
 

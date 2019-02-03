@@ -2,7 +2,7 @@
 #include "..\Headers\BTNodes.h"
 
 
-BTNode::BTNode(Blackboard bb)
+BTNode::BTNode(Blackboard * bb)
 {
 	this->bb = bb;
 }
@@ -11,7 +11,7 @@ void BTNode::Reset()
 {
 }
 
-CompositeNode::CompositeNode(Blackboard bb)
+CompositeNode::CompositeNode(Blackboard * bb)
 	: BTNode(bb), CurrentChildIndex(0)
 {
 }
@@ -41,7 +41,7 @@ void CompositeNode::Reset()
 	}
 }
 
-Selector::Selector( Blackboard bb ) 
+Selector::Selector( Blackboard * bb ) 
 	: CompositeNode(bb)
 {
 	//just needs to call Composite's constructor (base(bb) part)
@@ -81,7 +81,7 @@ BTStatus Selector::Execute()
 	return rv;
 }
 
-Sequence::Sequence(Blackboard bb) 
+Sequence::Sequence(Blackboard * bb) 
 	: CompositeNode(bb)
 {
 	//Same as selector, just needs to call Composite node's constructor, since this class holds no extra values
@@ -118,7 +118,7 @@ BTStatus Sequence::Execute()
 	return rv;
 }
 
-DecoratorNode::DecoratorNode(BTNode * WrappedNode, Blackboard bb) 
+DecoratorNode::DecoratorNode(BTNode * WrappedNode, Blackboard * bb) 
 	: BTNode(bb)
 {
 	this->WrappedNode = WrappedNode;
@@ -140,7 +140,7 @@ void DecoratorNode::Reset()
 	WrappedNode->Reset();
 }
 
-InverterDecorator::InverterDecorator(BTNode * WrappedNode, Blackboard bb) 
+InverterDecorator::InverterDecorator(BTNode * WrappedNode, Blackboard * bb) 
 	: DecoratorNode(WrappedNode, bb)
 {
 	//No extra values, just calls constructor on parent
@@ -162,7 +162,7 @@ BTStatus InverterDecorator::Execute()
 	return rv;
 }
 
-ConditionalDecorator::ConditionalDecorator(BTNode * WrappedNode, Blackboard bb) 
+ConditionalDecorator::ConditionalDecorator(BTNode * WrappedNode, Blackboard * bb) 
 	: DecoratorNode(WrappedNode, bb)
 {
 }

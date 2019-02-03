@@ -6,7 +6,7 @@ class Blackboard {
 public:
 	//Conditional decorators: (@To be replaced/complemented by desirability?)
 	//Higher level to lower level
-	Blackboard();
+	Blackboard( bool pickPocket = false, bool stealFood = false );
 	~Blackboard();
 
 	// Update is called once per frame
@@ -16,7 +16,7 @@ public:
 	//m_desirabilities?
 
 	bool m_pickPocket;
-	bool m_harass;
+	bool m_stealFood;
 	DirectX::SimpleMath::Vector2 m_desiredLocation;
 	float m_speed;
 };

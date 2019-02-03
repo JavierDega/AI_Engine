@@ -90,6 +90,12 @@
     <ClInclude Include="Headers\WifeStates.h">
       <Filter>Headers\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\GoalTemplates.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\GoblinSpawner.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -143,17 +149,17 @@
     <ClCompile Include="Sources\MinerStates.cpp">
       <Filter>Sources\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\State.cpp">
-      <Filter>Sources\AI</Filter>
-    </ClCompile>
-    <ClCompile Include="Sources\StateMachine.cpp">
-      <Filter>Sources\AI</Filter>
-    </ClCompile>
     <ClCompile Include="Sources\WifeSM.cpp">
       <Filter>Sources\AI</Filter>
     </ClCompile>
     <ClCompile Include="Sources\WifeStates.cpp">
       <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\GoalTemplates.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\GoblinSpawner.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

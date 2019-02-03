@@ -5,6 +5,7 @@
 #include "UIButton.h"
 #include "ClickerButton.h"
 #include "AnimatedEntity.h"
+#include "GoblinSpawner.h"
 #include "Miner.h"
 #include "Wife.h"
 
@@ -181,8 +182,11 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	Miner* myMiner = new Miner(Vector2(1000, 550), 0.5f);
 	myMiner->Initialize(device);
 
+	GoblinSpawner * myGoblinSpawner = new GoblinSpawner();
+	myGoblinSpawner->Initialize();
 
 	//Insert in vector
+	InsertEntity(myGoblinSpawner);
 	//Wife
 	InsertEntity(myWife);
 	//Miner
