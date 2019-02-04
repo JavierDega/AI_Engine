@@ -14,7 +14,7 @@ public:
 	virtual void Initialize(ID3D11Device1 * device, const wchar_t * fileName = L"Textures/goblin.dds");
 	virtual void Update(float elapsedTime);
 	//Utility
-	bool QueryClick(int mX, int mY);
+	bool QueryClick( ID3D11Device1 * device, int mX, int mY);
 	//Variables
 	//@Text
 	std::unique_ptr<DirectX::SpriteFont> m_font;

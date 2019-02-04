@@ -96,6 +96,9 @@
     <ClInclude Include="Headers\GoblinSpawner.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\TempEntity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -159,6 +162,9 @@
       <Filter>Sources\AI</Filter>
     </ClCompile>
     <ClCompile Include="Sources\GoblinSpawner.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\TempEntity.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>

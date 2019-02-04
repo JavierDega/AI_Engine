@@ -175,6 +175,7 @@
     <ClInclude Include="Headers\MinerStates.h" />
     <ClInclude Include="Headers\State.h" />
     <ClInclude Include="Headers\StateMachine.h" />
+    <ClInclude Include="Headers\TempEntity.h" />
     <ClInclude Include="Headers\UIButton.h" />
     <ClInclude Include="Headers\UIEntity.h" />
     <ClInclude Include="Headers\Wife.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="Sources\Miner.cpp" />
     <ClCompile Include="Sources\MinerSM.cpp" />
     <ClCompile Include="Sources\MinerStates.cpp" />
+    <ClCompile Include="Sources\TempEntity.cpp" />
     <ClCompile Include="Sources\UIButton.cpp" />
     <ClCompile Include="Sources\UIEntity.cpp" />
     <ClCompile Include="Sources\Wife.cpp" />

@@ -172,7 +172,7 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	AnimatedEntity* myAnimEntity13 = new AnimatedEntity(Vector2(400, 750), 0.35f );
 	myAnimEntity13->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
-	AnimatedEntity* myAnimEntity14 = new AnimatedEntity(Vector2(800, 850));
+	AnimatedEntity* myAnimEntity14 = new AnimatedEntity(Vector2(800, 850), 0.35f);
 	myAnimEntity14->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 

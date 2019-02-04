@@ -3,6 +3,7 @@
 #include "GameScene.h"
 #include "MinerSM.h"
 #include "WifeSM.h"
+#include "TempEntity.h"
 
 using namespace DirectX;
 using namespace SimpleMath;
@@ -59,13 +60,20 @@ void Goblin::Update(float elapsedTime)
 	}
 }
 //Utility
-bool Goblin::QueryClick(int mX, int mY)
+bool Goblin::QueryClick(ID3D11Device1 * device, int mX, int mY)
 {
 	//@Arbitrary value
 	if (Vector2::DistanceSquared(m_screenPos, Vector2(mX, mY)) < 500.f) {
 		//@Distance is lower than 10
 		//We clicked on this guy, return true, delete appropiately
-		GameScene::GetInstance()->RemoveEntity(this);
+		GameScene * gs = GameScene::GetInstance();
+
+		TempEntity * deadSprite = new TempEntity(m_screenPos, 0.65f, 2.0f);
+		deadSprite->Initialize(device, L"Textures/deadgoblin.dds");
+		gs->InsertEntity(deadSprite);
+
+		gs->RemoveEntity(this);
+
 		return true;
 	}
 	else return false;

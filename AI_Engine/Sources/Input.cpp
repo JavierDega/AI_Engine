@@ -49,7 +49,7 @@ void Input::UpdateInput(ID3D11Device1* device) {
 			else {
 				Goblin * goblin = dynamic_cast<Goblin *>(gs->m_entities[i]);
 				if (goblin) {
-					if(goblin->QueryClick( mouse.x, mouse.y))break;
+					if(goblin->QueryClick( device, mouse.x, mouse.y ))break;
 				
 				}
 			}
