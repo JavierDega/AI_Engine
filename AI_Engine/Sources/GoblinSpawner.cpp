@@ -18,11 +18,13 @@ GoblinSpawner::~GoblinSpawner()
 {
 	//@Resources
 	m_texture.Reset();
+	m_device = nullptr;
+
 }
 
 void GoblinSpawner::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 {
-	m_goblinTexture = make_shared<ID3D11ShaderResourceView>(device, fileName);
+	m_device = device;
 	//Dont call child's Initialize;
 }
 
@@ -44,10 +46,10 @@ void GoblinSpawner::Update(float elapsedTime)
 	m_timeSinceLastSpawn += elapsedTime;
 	
 	//Desirability to spawn
-	float spawnConstant = 1;
+	float spawnConstant = 0.5f;
 	//@The player's total gold, multiplied by the food and drink stack divided by hunger and thirst 
 	m_playerPower = (miner->m_gold + miner->m_bankedGold + wife->m_foodStack + wife->m_drinkStack) 
-		/ (1.0f + miner->m_hunger + miner->m_thirstiness );
+		/ (1.0f + miner->m_hunger + miner->m_thirstiness + miner->m_tiredness );
 	float desirabilitySpawn = spawnConstant * m_playerPower * m_timeSinceLastSpawn;
 
 	if (desirabilitySpawn > 1.0f) {
@@ -73,7 +75,7 @@ void GoblinSpawner::Update(float elapsedTime)
 		#pragma endregion
 
 		//Health is inversely proportional to hunger
-		m_playerHealth = (wife->m_foodStack + wife->m_drinkStack) + (10.0f - miner->m_hunger) + ( 10.0f - miner->m_thirstiness);//Should work within our constrained environment (They either eat after 10 hunger, or lose.)
+		m_playerHealth = (wife->m_foodStack + wife->m_drinkStack) + (10.0f - miner->m_hunger) + ( 10.0f - miner->m_thirstiness) + (10.f - miner->m_tiredness);//Should work within our constrained environment (They either eat after 10 hunger, or lose.)
 		m_playerWealth = (miner->m_gold + miner->m_bankedGold);
 		//Possible desirabilities to assign to spawned goblin's blackboard
 		const float stealFoodConstant = 1.f;
@@ -83,6 +85,7 @@ void GoblinSpawner::Update(float elapsedTime)
 
 		//For now we don't need 'Map' structures for desirabilities, since there's two
 		Goblin * spawnedGoblin = new Goblin(goblinSpawnPos, m_desirabilityPickPocket >= m_desirabilityStealFood, m_desirabilityStealFood > m_desirabilityPickPocket );
+		spawnedGoblin->Initialize(m_device);
 		gs->InsertEntity(spawnedGoblin);
 	}
 }

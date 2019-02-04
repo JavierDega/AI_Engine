@@ -121,6 +121,7 @@ void MinerSM::HandleStateTransitions()
 				}
 				else {
 					//@Lose condition: Nowhere to drink from
+					
 				}
 			}
 			else if (m_character->m_hunger >= 10) {

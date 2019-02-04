@@ -3,6 +3,7 @@
 
 #include "GameScene.h"
 #include "UIButton.h"
+#include "Goblin.h"
 
 extern void ExitGame();
 
@@ -43,7 +44,14 @@ void Input::UpdateInput(ID3D11Device1* device) {
 			//Look for entities which can be mouse pressed
 			UIButton * button = dynamic_cast<UIButton *>(gs->m_entities[i]);
 			if (button) {
-				button->QueryClick(device, mouse.x, mouse.y);
+				if(button->QueryClick(device, mouse.x, mouse.y))break;
+			}
+			else {
+				Goblin * goblin = dynamic_cast<Goblin *>(gs->m_entities[i]);
+				if (goblin) {
+					if(goblin->QueryClick( mouse.x, mouse.y))break;
+				
+				}
 			}
 		}
 	}
