@@ -164,6 +164,11 @@
     <ClInclude Include="Headers\Blackboard.h" />
     <ClInclude Include="Headers\BTNodes.h" />
     <ClInclude Include="Headers\ClickerButton.h" />
+    <ClInclude Include="Headers\FuzzyModule.h" />
+    <ClInclude Include="Headers\FuzzyRule.h" />
+    <ClInclude Include="Headers\FuzzySets.h" />
+    <ClInclude Include="Headers\FuzzyTerms.h" />
+    <ClInclude Include="Headers\FuzzyVariable.h" />
     <ClInclude Include="Headers\GameEntity.h" />
     <ClInclude Include="Headers\GameScene.h" />
     <ClInclude Include="Headers\GoalTemplates.h" />
@@ -199,6 +204,11 @@
     <ClCompile Include="Sources\Blackboard.cpp" />
     <ClCompile Include="Sources\BTNodes.cpp" />
     <ClCompile Include="Sources\ClickerButton.cpp" />
+    <ClCompile Include="Sources\FuzzyModule.cpp" />
+    <ClCompile Include="Sources\FuzzyRule.cpp" />
+    <ClCompile Include="Sources\FuzzySets.cpp" />
+    <ClCompile Include="Sources\FuzzyTerms.cpp" />
+    <ClCompile Include="Sources\FuzzyVariable.cpp" />
     <ClCompile Include="Sources\GameEntity.cpp" />
     <ClCompile Include="Sources\GameScene.cpp" />
     <ClCompile Include="Sources\GoalTemplates.cpp" />

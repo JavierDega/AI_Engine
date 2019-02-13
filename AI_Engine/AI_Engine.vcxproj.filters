@@ -99,6 +99,21 @@
     <ClInclude Include="Headers\TempEntity.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\FuzzySets.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\FuzzyTerms.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\FuzzyVariable.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\FuzzyRule.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\FuzzyModule.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -166,6 +181,21 @@
     </ClCompile>
     <ClCompile Include="Sources\TempEntity.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\FuzzySets.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\FuzzyTerms.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\FuzzyVariable.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\FuzzyRule.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\FuzzyModule.cpp">
+      <Filter>Sources\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
