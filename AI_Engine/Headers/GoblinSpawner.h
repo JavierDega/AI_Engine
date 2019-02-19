@@ -14,7 +14,6 @@ public:
 	virtual void Render(DirectX::SpriteBatch * spriteBatch);
 	virtual void Update(float elapsedTime);
 	//Variables
-	ID3D11Device1 * m_device;
 	//@makes game hard for player, but not too hard
 	float m_playerHealth;//From thirstiness, hunger
 	float m_playerWealth;//From gold

@@ -15,7 +15,7 @@ Miner::Miner(DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
 	m_gold = 0;
 	m_bankedGold = 0;
 	m_thirstiness = 0;
-	m_hunger = 0;
+	m_hunger = 8;
 	m_tiredness = 0;
 	m_startMoving = true;
 	m_isMoving = false;
@@ -49,6 +49,10 @@ void Miner::Initialize(ID3D11Device1 * device)
 	m_animatedTextures.push_back(m_animTexture);
 
 	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minerdrinking.dds",
+		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
+	m_animatedTextures.push_back(m_animTexture);
+
+	DX::ThrowIfFailed(CreateDDSTextureFromFile(device, L"Textures/minereating.dds",
 		nullptr, m_animTexture.ReleaseAndGetAddressOf()));
 	m_animatedTextures.push_back(m_animTexture);
 
@@ -92,6 +96,9 @@ void Miner::Update(float elapsedTime)
 			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 675, 575 ), m_fracT);
 			break;
 		case DRINKING:
+			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 925, 675 ), m_fracT);
+			break;
+		case EATING:
 			m_screenPos = Vector2::Lerp(m_screenPos, Vector2( 925, 675 ), m_fracT);
 			break;
 		case HAVING_MEAL:

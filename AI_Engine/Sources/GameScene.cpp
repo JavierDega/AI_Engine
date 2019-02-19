@@ -6,12 +6,15 @@
 #include "ClickerButton.h"
 #include "AnimatedEntity.h"
 #include "GoblinSpawner.h"
+#include "Goblin.h"
 #include "Miner.h"
 #include "Wife.h"
 
 #include <iostream>
+
 using namespace DirectX;
 using namespace DirectX::SimpleMath;
+using namespace std;
 
 GameScene* GameScene::m_instance = NULL;
 
@@ -32,15 +35,17 @@ GameScene * GameScene::GetInstance()
 
 GameScene::~GameScene()
 {
+	m_device = nullptr;
 	RemoveAllEntities();
 }
 
 //Initializes first scene (Main Menu?)
 void GameScene::Initialize(ID3D11Device1* device, ID3D11DeviceContext1 * deviceContext)
-{
+{	
+	m_device = device;
 	//Init resources: EntityManager creation->Take data from gameScene?
 	m_spriteBatch = std::make_unique<SpriteBatch>(deviceContext);
-	LoadStartMenu(device);
+	LoadStartMenu();
 }
 
 void GameScene::InitWindow(D3D11_VIEWPORT newScreenViewport)
@@ -79,17 +84,17 @@ void GameScene::Reset()
 	RemoveAllEntities();
 }
 
-void GameScene::LoadStartMenu(ID3D11Device1 * device)
+void GameScene::LoadStartMenu()
 {
 	//Deplete vector, call destructors
 	RemoveAllEntities();
 
 	UIEntity* myUIBackground = new UIEntity(0, 1, 0, 1);
-	myUIBackground->Initialize(device, L"Textures/menger.dds");
+	myUIBackground->Initialize(m_device, L"Textures/menger.dds");
 	UIEntity* myTitle = new UIEntity(0.25, 0.75, 0, 0.4);
-	myTitle->Initialize(device, L"Textures/aitoolbox.dds");
+	myTitle->Initialize(m_device, L"Textures/aitoolbox.dds");
 	UIButton* myButton = new UIButton(ButtonType::LOADSCENE1, 0.4, 0.60, 0.5, 0.6);
-	myButton->Initialize(device, L"Textures/goldrushbutton.dds");
+	myButton->Initialize(m_device, L"Textures/goldrushbutton.dds");
 
 
 	InsertEntity(myUIBackground);
@@ -99,7 +104,7 @@ void GameScene::LoadStartMenu(ID3D11Device1 * device)
 	InitWindow(m_currentViewport);
 }
 
-void GameScene::LoadScene1(ID3D11Device1 * device)
+void GameScene::LoadScene1()
 {
 	//Deplete vector, call destructors
 	RemoveAllEntities();
@@ -107,83 +112,83 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	//Initialize:
 	//The Scene1 consists of a static background Texture (Mine field, other stuff?)
 	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.15, 0, 0.075);
-	myBackButton->Initialize(device, L"Textures/backbutton.dds");
+	myBackButton->Initialize(m_device, L"Textures/backbutton.dds");
 
 	ClickerButton * myGoldButton = new ClickerButton(ButtonType::INCREASEGOLD, 0, 0.1, 0.2, 0.25, 5);
-	myGoldButton->Initialize(device, L"Textures/goldbutton.dds");
+	myGoldButton->Initialize(m_device, L"Textures/goldbutton.dds");
 
 	ClickerButton * myCookButton = new ClickerButton(ButtonType::INCREASECOOK, 0, 0.1, 0.3, 0.35, 5);
-	myCookButton->Initialize(device, L"Textures/cookbutton.dds");
+	myCookButton->Initialize(m_device, L"Textures/cookbutton.dds");
 
 	GameEntity* myGameBackground = new GameEntity(Vector2(1920 / 2, 1080 / 2), 0.7f);
-	myGameBackground->Initialize(device, L"Textures/forestbackground.dds");
+	myGameBackground->Initialize(m_device, L"Textures/forestbackground.dds");
 
 	GameEntity* myMineIcon = new GameEntity(Vector2(1250, 550));
-	myMineIcon->Initialize(device, L"Textures/mine.dds");
+	myMineIcon->Initialize(m_device, L"Textures/mine.dds");
 
 	GameEntity* myBedIcon = new GameEntity(Vector2(675, 575));
-	myBedIcon->Initialize(device, L"Textures/bed.dds");
+	myBedIcon->Initialize(m_device, L"Textures/bed.dds");
 
 	GameEntity* myChestIcon = new GameEntity(Vector2(925, 450));
-	myChestIcon->Initialize(device, L"Textures/chest.dds");
+	myChestIcon->Initialize(m_device, L"Textures/chest.dds");
 
 	GameEntity* myShopIcon = new GameEntity(Vector2(925, 650));
-	myShopIcon->Initialize(device, L"Textures/shop.dds");
+	myShopIcon->Initialize(m_device, L"Textures/shop.dds");
 
 	GameEntity* myBowlIcon = new GameEntity(Vector2(1220, 425));
-	myBowlIcon->Initialize(device, L"Textures/cookstand.dds");
+	myBowlIcon->Initialize(m_device, L"Textures/cookstand.dds");
 
 	AnimatedEntity* myAnimEntity = new AnimatedEntity(Vector2(500, 250), 0.35f);
-	myAnimEntity->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity2 = new AnimatedEntity(Vector2(300, 550), 0.35f );
-	myAnimEntity2->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity2->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity3 = new AnimatedEntity(Vector2(200, 450), 0.35f );
-	myAnimEntity3->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity3->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity4 = new AnimatedEntity(Vector2(1200, 800), 0.35f );
-	myAnimEntity4->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity4->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity5 = new AnimatedEntity(Vector2(1400, 100), 0.35f );
-	myAnimEntity5->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity5->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity6 = new AnimatedEntity(Vector2(1400, 350), 0.35f);
-	myAnimEntity6->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity6->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity7 = new AnimatedEntity(Vector2(1400, 650), 0.35f);
-	myAnimEntity7->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity7->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity8 = new AnimatedEntity(Vector2(1450, 450), 0.35f );
-	myAnimEntity8->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity8->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity9 = new AnimatedEntity(Vector2(1200, 150), 0.35f);
-	myAnimEntity9->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity9->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity10 = new AnimatedEntity(Vector2(1000, 250), 0.35f );
-	myAnimEntity10->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity10->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 	
 	AnimatedEntity* myAnimEntity11 = new AnimatedEntity(Vector2(750, 225), 0.35f );
-	myAnimEntity11->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity11->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity12 = new AnimatedEntity(Vector2(600, 850), 0.35f );
-	myAnimEntity12->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity12->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity13 = new AnimatedEntity(Vector2(400, 750), 0.35f );
-	myAnimEntity13->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity13->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 	AnimatedEntity* myAnimEntity14 = new AnimatedEntity(Vector2(800, 850), 0.35f);
-	myAnimEntity14->Initialize(device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+	myAnimEntity14->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
 
 	Wife* myWife = new Wife(Vector2(1220, 425), 0.5f);
-	myWife->Initialize(device);
+	myWife->Initialize(m_device);
 	
 	Miner* myMiner = new Miner(Vector2(1000, 550), 0.5f);
-	myMiner->Initialize(device);
+	myMiner->Initialize(m_device);
 
 	GoblinSpawner * myGoblinSpawner = new GoblinSpawner();
-	myGoblinSpawner->Initialize(device);
+	myGoblinSpawner->Initialize(m_device);
 
 	//Insert in vector
 	InsertEntity(myGoblinSpawner);
@@ -222,6 +227,29 @@ void GameScene::LoadScene1(ID3D11Device1 * device)
 	InitWindow(m_currentViewport);
 }
 
+void GameScene::GoldRushLost()
+{
+	//Delete miner, wife, goblinSpawner, pause all goblins, spawn MidButton
+	for (int i = 0; i < m_entities.size(); i++) {
+		
+		Miner * miner = dynamic_cast<Miner*>(m_entities[i]);
+		Wife * wife = dynamic_cast<Wife*>(m_entities[i]);
+		GoblinSpawner * goblinSpawner = dynamic_cast<GoblinSpawner*>(m_entities[i]);
+		Goblin * goblin = dynamic_cast<Goblin*>(m_entities[i]);
+
+		if (goblin) {
+			goblin->m_bb.m_pickPocket = false;
+			goblin->m_bb.m_stealFood = false;
+		}
+
+		if (miner || wife || goblinSpawner) {
+			//Remove with swap and pop, i-- not to skip update
+			RemoveAt(i);
+			i--;
+		}
+	}
+}
+
 void GameScene::InsertEntity(BaseEntity* entity)
 {
 	m_entities.push_back(entity);
@@ -242,6 +270,15 @@ void GameScene::RemoveEntity(BaseEntity * entity)
 	}
 }
 
+void GameScene::RemoveAt(int index) {
+	//Swap and pop approach (NOT Needed)
+	if (index < m_entities.size() - 1) {
+		swap(m_entities[index], m_entities.back());
+	}
+	BaseEntity * entity = m_entities.back();
+	m_entities.pop_back();
+	delete entity;
+}
 void GameScene::RemoveAllEntities()
 {
 	//Safety check

@@ -6,6 +6,7 @@ enum MinerStates {
 	BANKING_GOLD,
 	RESTING,
 	DRINKING,
+	EATING,
 	HAVING_MEAL
 };
 class MinerSM :

@@ -60,7 +60,7 @@ void Goblin::Update(float elapsedTime)
 	}
 }
 //Utility
-bool Goblin::QueryClick(ID3D11Device1 * device, int mX, int mY)
+bool Goblin::QueryClick(int mX, int mY)
 {
 	//@Arbitrary value
 	if (Vector2::DistanceSquared(m_screenPos, Vector2(mX, mY)) < 500.f) {
@@ -69,7 +69,7 @@ bool Goblin::QueryClick(ID3D11Device1 * device, int mX, int mY)
 		GameScene * gs = GameScene::GetInstance();
 
 		TempEntity * deadSprite = new TempEntity(m_screenPos, 0.65f, 2.0f);
-		deadSprite->Initialize(device, L"Textures/deadgoblin.dds");
+		deadSprite->Initialize(gs->m_device, L"Textures/deadgoblin.dds");
 		gs->InsertEntity(deadSprite);
 
 		gs->RemoveEntity(this);

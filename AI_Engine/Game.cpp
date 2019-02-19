@@ -56,7 +56,7 @@ void Game::Update(DX::StepTimer const& timer)
 
     // TODO: Add your game logic here.
     elapsedTime;
-	Input::GetInstance()->UpdateInput(m_deviceResources->GetD3DDevice());
+	Input::GetInstance()->UpdateInput();
 	GameScene::GetInstance()->Update(elapsedTime);
 }
 #pragma endregion

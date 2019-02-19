@@ -12,7 +12,7 @@ public:
 	//@We need to render font to the right of RECT
 	virtual void Render(DirectX::SpriteBatch * spriteBatch)override;
 	//Utility
-	virtual bool QueryClick(ID3D11Device1 * device, int mX, int mY)override;
+	virtual bool QueryClick( int mX, int mY)override;
 	void GoldButton();
 	void CookButton();
 

@@ -27,7 +27,7 @@ void Input::Initialize(HWND window)
 	m_mouse->SetWindow(window);
 }
 
-void Input::UpdateInput(ID3D11Device1* device) {
+void Input::UpdateInput() {
 	//Keyboard and Mouse are singletons
 	auto kb = m_keyboard->GetState();
 	if (kb.Escape)
@@ -44,12 +44,12 @@ void Input::UpdateInput(ID3D11Device1* device) {
 			//Look for entities which can be mouse pressed
 			UIButton * button = dynamic_cast<UIButton *>(gs->m_entities[i]);
 			if (button) {
-				if(button->QueryClick(device, mouse.x, mouse.y))break;
+				if(button->QueryClick(mouse.x, mouse.y))break;
 			}
 			else {
 				Goblin * goblin = dynamic_cast<Goblin *>(gs->m_entities[i]);
 				if (goblin) {
-					if(goblin->QueryClick( device, mouse.x, mouse.y ))break;
+					if (goblin->QueryClick(mouse.x, mouse.y))break;
 				
 				}
 			}

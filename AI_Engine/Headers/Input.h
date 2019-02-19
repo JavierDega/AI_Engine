@@ -12,7 +12,7 @@ public:
 	~Input();
 	//Game events
 	void Initialize(HWND window);
-	void UpdateInput(ID3D11Device1 * device);
+	void UpdateInput();
 	void Reset();
 	//Singleton
 	static Input* GetInstance();

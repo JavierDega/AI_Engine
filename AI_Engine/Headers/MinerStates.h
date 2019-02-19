@@ -41,3 +41,10 @@ public:
 
 };
 
+class Eating :
+	public State<Miner>
+{
+public:
+	void Execute(Miner * miner);
+};
+

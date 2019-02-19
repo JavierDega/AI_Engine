@@ -29,12 +29,14 @@ public:
 	void Render();
 	void Reset();
 	//Load
-	void LoadStartMenu(ID3D11Device1* device);
-	void LoadScene1(ID3D11Device1* device);
+	void LoadStartMenu();
+	void LoadScene1();
+	void GoldRushLost();//In this mini-game we always, eventually, lose.
 
 	//Utility functions
 	void InsertEntity(BaseEntity* entity);
 	void RemoveEntity(BaseEntity* entity);
+	void RemoveAt(int index);
 	void RemoveAllEntities();
 	bool ContainsEntity(BaseEntity* entity);
 	bool ContainsEntity(BaseEntity* entity, int& index);
@@ -42,6 +44,7 @@ public:
 	Miner * GetMiner();
 
 	//Variables
+	ID3D11Device1 * m_device;
 	//Current viewport
 	D3D11_VIEWPORT m_currentViewport;
 	//SpriteBatch drawer (Begin() and End())

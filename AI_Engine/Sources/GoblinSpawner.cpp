@@ -18,13 +18,11 @@ GoblinSpawner::~GoblinSpawner()
 {
 	//@Resources
 	m_texture.Reset();
-	m_device = nullptr;
 
 }
 
 void GoblinSpawner::Initialize(ID3D11Device1 * device, const wchar_t * fileName)
 {
-	m_device = device;
 	//Dont call child's Initialize;
 }
 
@@ -85,7 +83,7 @@ void GoblinSpawner::Update(float elapsedTime)
 
 		//For now we don't need 'Map' structures for desirabilities, since there's two
 		Goblin * spawnedGoblin = new Goblin(goblinSpawnPos, m_desirabilityPickPocket >= m_desirabilityStealFood, m_desirabilityStealFood > m_desirabilityPickPocket );
-		spawnedGoblin->Initialize(m_device);
+		spawnedGoblin->Initialize(GameScene::GetInstance()->m_device);
 		gs->InsertEntity(spawnedGoblin);
 	}
 }

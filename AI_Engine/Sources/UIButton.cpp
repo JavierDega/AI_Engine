@@ -24,17 +24,17 @@ ButtonType UIButton::GetType()
 }
 
 //@Unfinished: To define functions for each specific buttonType enum.
-bool UIButton::QueryClick(ID3D11Device1 * device, int mX, int mY)
+bool UIButton::QueryClick( int mX, int mY)
 {
 	//Then we compare to see if the mouse's position is inside the UIButton's Rect.
 	if ((mX < m_UIRect.right && mX > m_UIRect.left) && (mY > m_UIRect.top && mY < m_UIRect.bottom)) {
 		//Clicked
 		switch (m_type) {
 		case ButtonType::LOADMENU:
-			GameScene::GetInstance()->LoadStartMenu(device);
+			GameScene::GetInstance()->LoadStartMenu();
 			break;
 		case ButtonType::LOADSCENE1:
-			GameScene::GetInstance()->LoadScene1(device);
+			GameScene::GetInstance()->LoadScene1();
 			break;
 		}
 		return true;

@@ -58,7 +58,6 @@ void Drinking::Execute(Miner * miner)
 
 void HavingMeal::Execute(Miner * miner)
 {
-	//Iterate through UI elements to find possible clicked UI Button
 	Wife * wife = GameScene::GetInstance()->GetWife();
 	if (wife) {
 		//@Ideally always gets wife, otherwise, game over?
@@ -73,3 +72,19 @@ void HavingMeal::Execute(Miner * miner)
 	miner->m_text = L"Having Meal!";
 }
 
+void Eating::Execute(Miner * miner)
+{
+	//@If we got here, we have enough money to buy food
+	int moneyToFill = 5;
+	if (miner->m_gold > 0) {
+		moneyToFill -= miner->m_gold;
+		miner->m_gold = 0;
+	}
+	//Left over gold?
+	miner->m_bankedGold -= moneyToFill;//MoneyToFill is 0
+
+	miner->m_hunger -= 10;
+	if (miner->m_hunger < 0) miner->m_hunger = 0;
+	//@Log (Also reset length)
+	miner->m_text = L"Eating!";
+}
