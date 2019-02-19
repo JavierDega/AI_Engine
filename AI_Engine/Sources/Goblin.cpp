@@ -72,7 +72,8 @@ bool Goblin::QueryClick(int mX, int mY)
 		deadSprite->Initialize(gs->m_device, L"Textures/deadgoblin.dds");
 		gs->InsertEntity(deadSprite);
 
-		gs->RemoveEntity(this);
+		//@Commit sudoku
+		m_isDeleted = true;
 
 		return true;
 	}
@@ -146,6 +147,7 @@ BTStatus PickPocket::Execute()
 	if (miner->m_stateMachine->m_charState == MinerStates::MINING_GOLD) {
 		//Get one gold
 		if (miner->m_gold > 0) miner->m_gold--;
+		else if (miner->m_bankedGold > 0) miner->m_bankedGold--;
 	}
 	//Never ends til it gets killed.
 	return BTStatus::RUNNING;

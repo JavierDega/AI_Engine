@@ -20,6 +20,6 @@ void TempEntity::Update(float elapsedTime)
 	m_timeSinceSpawn += elapsedTime;
 	if (m_timeSinceSpawn >= m_lifeTime) {
 		//@Alt+Delete yourself
-		GameScene::GetInstance()->RemoveEntity(this);
+		m_isDeleted = true;
 	}
 }

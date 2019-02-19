@@ -6,8 +6,9 @@ using namespace SimpleMath;
 using Microsoft::WRL::ComPtr;
 
 BaseEntity::BaseEntity(float layerDepth)
-	: m_layerDepth(layerDepth)
+	: m_layerDepth(layerDepth), m_isDeleted(false)
 {
+
 }
 
 void BaseEntity::Initialize(ID3D11Device1* device, const wchar_t * fileName)

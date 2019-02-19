@@ -16,4 +16,6 @@ public:
 	//Represents idle texture in animatable entities
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_texture;
 	float m_layerDepth;
+	bool m_isDeleted;
+
 };

@@ -62,6 +62,14 @@ void GameScene::Update(float elapsedTime)
 	for (unsigned int i = 0; i < m_entities.size(); i++) {
 		m_entities[i]->Update(elapsedTime);
 	}
+	//Second object pass where we delete entities marked for deletion
+	for (unsigned int i = 0; i < m_entities.size(); i++) {
+		
+		if (m_entities[i]->m_isDeleted) {
+			RemoveAt(i);
+			i--;
+		}
+	}
 }
 
 void GameScene::Render()
@@ -180,6 +188,45 @@ void GameScene::LoadScene1()
 	AnimatedEntity* myAnimEntity14 = new AnimatedEntity(Vector2(800, 850), 0.35f);
 	myAnimEntity14->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
 
+	AnimatedEntity* myAnimEntity15 = new AnimatedEntity(Vector2(850, 950), 0.35f);
+	myAnimEntity15->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity16 = new AnimatedEntity(Vector2(1050, 950), 0.35f);
+	myAnimEntity16->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity17 = new AnimatedEntity(Vector2(1250, 850), 0.35f);
+	myAnimEntity17->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity18 = new AnimatedEntity(Vector2(1400, 850), 0.35f);
+	myAnimEntity18->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity19 = new AnimatedEntity(Vector2(1500, 700), 0.35f);
+	myAnimEntity19->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity20 = new AnimatedEntity(Vector2(1600, 500), 0.35f);
+	myAnimEntity20->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity21 = new AnimatedEntity(Vector2(1750, 400), 0.35f);
+	myAnimEntity21->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity22 = new AnimatedEntity(Vector2(1650, 300), 0.35f);
+	myAnimEntity22->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity23 = new AnimatedEntity(Vector2(1450, 250), 0.35f);
+	myAnimEntity23->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity24 = new AnimatedEntity(Vector2(1350, 150), 0.35f);
+	myAnimEntity24->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity25 = new AnimatedEntity(Vector2(1250, 100), 0.35f);
+	myAnimEntity25->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity26 = new AnimatedEntity(Vector2(1050, 150), 0.35f);
+	myAnimEntity26->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
+	AnimatedEntity* myAnimEntity27 = new AnimatedEntity(Vector2(950, 100), 0.35f);
+	myAnimEntity27->Initialize(m_device, L"Textures/bushanimated.dds", L"Textures/animatedentitybase.dds", 2, 2);
+
 
 	Wife* myWife = new Wife(Vector2(1220, 425), 0.5f);
 	myWife->Initialize(m_device);
@@ -219,6 +266,19 @@ void GameScene::LoadScene1()
 	InsertEntity(myAnimEntity12);
 	InsertEntity(myAnimEntity13);
 	InsertEntity(myAnimEntity14);
+	InsertEntity(myAnimEntity15);
+	InsertEntity(myAnimEntity16);
+	InsertEntity(myAnimEntity17);
+	InsertEntity(myAnimEntity18);
+	InsertEntity(myAnimEntity19);
+	InsertEntity(myAnimEntity20);
+	InsertEntity(myAnimEntity21);
+	InsertEntity(myAnimEntity22);
+	InsertEntity(myAnimEntity23);
+	InsertEntity(myAnimEntity24);
+	InsertEntity(myAnimEntity25);
+	InsertEntity(myAnimEntity26);
+	InsertEntity(myAnimEntity27);
 	//UI
 	InsertEntity(myBackButton);
 	InsertEntity(myGoldButton);
@@ -232,9 +292,10 @@ void GameScene::GoldRushLost()
 	//Delete miner, wife, goblinSpawner, pause all goblins, spawn MidButton
 	for (int i = 0; i < m_entities.size(); i++) {
 		
-		Miner * miner = dynamic_cast<Miner*>(m_entities[i]);
-		Wife * wife = dynamic_cast<Wife*>(m_entities[i]);
+		GetWife()->m_isDeleted = true;
+		GetMiner()->m_isDeleted = true;
 		GoblinSpawner * goblinSpawner = dynamic_cast<GoblinSpawner*>(m_entities[i]);
+		ClickerButton * clickerButton = dynamic_cast<ClickerButton*>(m_entities[i]);
 		Goblin * goblin = dynamic_cast<Goblin*>(m_entities[i]);
 
 		if (goblin) {
@@ -242,12 +303,21 @@ void GameScene::GoldRushLost()
 			goblin->m_bb.m_stealFood = false;
 		}
 
-		if (miner || wife || goblinSpawner) {
-			//Remove with swap and pop, i-- not to skip update
-			RemoveAt(i);
-			i--;
+		if (goblinSpawner) {
+			goblinSpawner->m_isDeleted = true;
+		}
+
+		if (clickerButton) {
+			clickerButton->m_isDeleted = true;
 		}
 	}
+
+	//Create UI Entity that conveys lost
+	UIEntity* myLostMessage = new UIEntity(0.4, 0.6, 0.4, 0.6);
+	//UI Entities need an InitWindow() call
+	myLostMessage->InitWindow(m_currentViewport);
+	myLostMessage->Initialize(m_device, L"Textures/YouLost.dds");
+	InsertEntity(myLostMessage);
 }
 
 void GameScene::InsertEntity(BaseEntity* entity)
@@ -269,7 +339,7 @@ void GameScene::RemoveEntity(BaseEntity * entity)
 		delete entity;
 	}
 }
-
+//Swap and pop
 void GameScene::RemoveAt(int index) {
 	//Swap and pop approach (NOT Needed)
 	if (index < m_entities.size() - 1) {
@@ -279,6 +349,7 @@ void GameScene::RemoveAt(int index) {
 	m_entities.pop_back();
 	delete entity;
 }
+
 void GameScene::RemoveAllEntities()
 {
 	//Safety check

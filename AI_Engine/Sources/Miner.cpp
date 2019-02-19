@@ -15,7 +15,7 @@ Miner::Miner(DirectX::SimpleMath::Vector2 screenPos, float layerDepth)
 	m_gold = 0;
 	m_bankedGold = 0;
 	m_thirstiness = 0;
-	m_hunger = 8;
+	m_hunger = 0;
 	m_tiredness = 0;
 	m_startMoving = true;
 	m_isMoving = false;
