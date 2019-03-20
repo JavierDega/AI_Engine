@@ -2,6 +2,7 @@
 #include "..\Headers\GameScene.h"
 
 #include "GameEntity.h"
+#include "ScrollingEntity.h"
 #include "UIButton.h"
 #include "ClickerButton.h"
 #include "AnimatedEntity.h"
@@ -103,11 +104,14 @@ void GameScene::LoadStartMenu()
 	myTitle->Initialize(m_device, L"Textures/aitoolbox.dds");
 	UIButton* myButton = new UIButton(ButtonType::LOADSCENE1, 0.4, 0.60, 0.5, 0.6);
 	myButton->Initialize(m_device, L"Textures/goldrushbutton.dds");
+	UIButton * myButton2 = new UIButton(ButtonType::LOADSCENE2, 0.4, 0.6, 0.7, 0.8);
+	myButton2->Initialize(m_device, L"Textures/citychasebutton.dds");
 
 
 	InsertEntity(myUIBackground);
 	InsertEntity(myTitle);
 	InsertEntity(myButton);
+	InsertEntity(myButton2);
 
 	InitWindow(m_currentViewport);
 }
@@ -284,6 +288,21 @@ void GameScene::LoadScene1()
 	InsertEntity(myGoldButton);
 	InsertEntity(myCookButton);
 
+	InitWindow(m_currentViewport);
+}
+
+void GameScene::LoadScene2()
+{
+	//Deplete vector, call destructors
+	RemoveAllEntities();
+
+	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.15, 0, 0.075);
+	myBackButton->Initialize(m_device, L"Textures/backbutton.dds");
+	ScrollingEntity* myScrollingBg = new ScrollingEntity(Vector2(950, 540), 50.f, 0.6f);
+	myScrollingBg->Initialize(m_device);
+
+	InsertEntity(myBackButton);
+	InsertEntity(myScrollingBg);
 	InitWindow(m_currentViewport);
 }
 

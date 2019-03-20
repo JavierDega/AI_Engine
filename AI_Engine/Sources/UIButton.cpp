@@ -36,6 +36,9 @@ bool UIButton::QueryClick( int mX, int mY)
 		case ButtonType::LOADSCENE1:
 			GameScene::GetInstance()->LoadScene1();
 			break;
+		case ButtonType::LOADSCENE2:
+			GameScene::GetInstance()->LoadScene2();
+			break;
 		}
 		return true;
 	}

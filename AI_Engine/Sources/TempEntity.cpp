@@ -10,7 +10,6 @@ TempEntity::TempEntity( Vector2 screenPos, float layerDepth, float lifeTime )
 {
 }
 
-
 TempEntity::~TempEntity()
 {
 }

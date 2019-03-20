@@ -4,6 +4,7 @@
 //Type id (Helps searching through GameScene vector)
 enum class ButtonType {
 	LOADSCENE1,
+	LOADSCENE2,
 	LOADMENU,
 	INCREASEGOLD,
 	INCREASECOOK

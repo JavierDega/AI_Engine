@@ -114,6 +114,14 @@
     <ClInclude Include="Headers\FuzzyModule.h">
       <Filter>Headers\AI</Filter>
     </ClInclude>
+    <ClInclude Include="ScrollingBackground.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\ScrollingEntity.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\NavigationGraph.h" />
+    <ClInclude Include="SteeringEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -197,6 +205,11 @@
     <ClCompile Include="Sources\FuzzyModule.cpp">
       <Filter>Sources\AI</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\ScrollingEntity.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\NavigationGraph.cpp" />
+    <ClCompile Include="SteeringEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

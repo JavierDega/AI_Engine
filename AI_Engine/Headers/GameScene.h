@@ -31,6 +31,7 @@ public:
 	//Load
 	void LoadStartMenu();
 	void LoadScene1();
+	void LoadScene2();
 	void GoldRushLost();//In this mini-game we always, eventually, lose.
 
 	//Utility functions
