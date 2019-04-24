@@ -4,10 +4,12 @@
 #include "GameScene.h"
 #include "UIButton.h"
 #include "Goblin.h"
+#include "SteeringEntity.h"
 
 extern void ExitGame();
 
 using namespace DirectX;
+using namespace SimpleMath;
 //Singleton init at compile time
 Input* Input::m_instance = NULL;
 
@@ -46,12 +48,14 @@ void Input::UpdateInput() {
 			if (button) {
 				if(button->QueryClick(mouse.x, mouse.y))break;
 			}
-			else {
-				Goblin * goblin = dynamic_cast<Goblin *>(gs->m_entities[i]);
-				if (goblin) {
-					if (goblin->QueryClick(mouse.x, mouse.y))break;
-				
-				}
+			Goblin * goblin = dynamic_cast<Goblin *>(gs->m_entities[i]);
+			if (goblin) {
+				if (goblin->QueryClick(mouse.x, mouse.y))break;	
+			}
+			SteeringEntity * steeringEntity = dynamic_cast<SteeringEntity*>(gs->m_entities[i]);
+			if (steeringEntity && steeringEntity->m_type == SteeringType::PLAYER_CAR) {
+				//@Set seek vector
+				steeringEntity->m_seekVector = Vector2(mouse.x, mouse.y);
 			}
 		}
 	}

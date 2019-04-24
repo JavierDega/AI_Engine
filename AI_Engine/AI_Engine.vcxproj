@@ -182,6 +182,7 @@
     <ClInclude Include="Headers\ScrollingEntity.h" />
     <ClInclude Include="Headers\State.h" />
     <ClInclude Include="Headers\StateMachine.h" />
+    <ClInclude Include="Headers\SteeringEntity.h" />
     <ClInclude Include="Headers\TempEntity.h" />
     <ClInclude Include="Headers\UIButton.h" />
     <ClInclude Include="Headers\UIEntity.h" />
@@ -190,7 +191,6 @@
     <ClInclude Include="Headers\WifeStates.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="ScrollingBackground.h" />
-    <ClInclude Include="SteeringEntity.h" />
     <ClInclude Include="StepTimer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -224,13 +224,13 @@
     <ClCompile Include="Sources\MinerStates.cpp" />
     <ClCompile Include="Sources\NavigationGraph.cpp" />
     <ClCompile Include="Sources\ScrollingEntity.cpp" />
+    <ClCompile Include="Sources\SteeringEntity.cpp" />
     <ClCompile Include="Sources\TempEntity.cpp" />
     <ClCompile Include="Sources\UIButton.cpp" />
     <ClCompile Include="Sources\UIEntity.cpp" />
     <ClCompile Include="Sources\Wife.cpp" />
     <ClCompile Include="Sources\WifeSM.cpp" />
     <ClCompile Include="Sources\WifeStates.cpp" />
-    <ClCompile Include="SteeringEntity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

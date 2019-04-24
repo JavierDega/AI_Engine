@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "BaseEntity.h"
+#include "NavigationGraph.h"
+#include "SteeringEntity.h"
 #include "Wife.h"
 #include "Miner.h"
 
@@ -33,6 +35,7 @@ public:
 	void LoadScene1();
 	void LoadScene2();
 	void GoldRushLost();//In this mini-game we always, eventually, lose.
+	void CityChaseLost();
 
 	//Utility functions
 	void InsertEntity(BaseEntity* entity);
@@ -41,8 +44,10 @@ public:
 	void RemoveAllEntities();
 	bool ContainsEntity(BaseEntity* entity);
 	bool ContainsEntity(BaseEntity* entity, int& index);
+	void UpdateGraph();//@Desgined to be called periodically.
 	Wife * GetWife();
 	Miner * GetMiner();
+	SteeringEntity * GetPlayerCar();//@For pathfinding queries
 
 	//Variables
 	ID3D11Device1 * m_device;
@@ -51,4 +56,6 @@ public:
 	//SpriteBatch drawer (Begin() and End())
 	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
 	std::vector <BaseEntity*> m_entities;
+
+	NavGraph m_graph;
 };

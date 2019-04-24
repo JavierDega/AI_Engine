@@ -120,8 +120,12 @@
     <ClInclude Include="Headers\ScrollingEntity.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Headers\NavigationGraph.h" />
-    <ClInclude Include="SteeringEntity.h" />
+    <ClInclude Include="Headers\NavigationGraph.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\SteeringEntity.h">
+      <Filter>Headers\AI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -208,8 +212,12 @@
     <ClCompile Include="Sources\ScrollingEntity.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Sources\NavigationGraph.cpp" />
-    <ClCompile Include="SteeringEntity.cpp" />
+    <ClCompile Include="Sources\NavigationGraph.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\SteeringEntity.cpp">
+      <Filter>Sources\AI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />

@@ -10,6 +10,7 @@
 #include "Goblin.h"
 #include "Miner.h"
 #include "Wife.h"
+#include "SteeringEntity.h"
 
 #include <iostream>
 
@@ -300,10 +301,18 @@ void GameScene::LoadScene2()
 	myBackButton->Initialize(m_device, L"Textures/backbutton.dds");
 	ScrollingEntity* myScrollingBg = new ScrollingEntity(Vector2(950, 540), 50.f, 0.6f);
 	myScrollingBg->Initialize(m_device);
+	SteeringEntity * myPlayer = new SteeringEntity(Vector2(1000, 500));
+	myPlayer->Initialize(m_device);
+	SteeringEntity * enemyCar = new SteeringEntity(Vector2(500, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar->Initialize(m_device, L"Textures/car.dds");
 
 	InsertEntity(myBackButton);
 	InsertEntity(myScrollingBg);
+	InsertEntity(myPlayer);
+	InsertEntity(enemyCar);
+
 	InitWindow(m_currentViewport);
+	UpdateGraph();
 }
 
 void GameScene::GoldRushLost()
@@ -337,6 +346,11 @@ void GameScene::GoldRushLost()
 	myLostMessage->InitWindow(m_currentViewport);
 	myLostMessage->Initialize(m_device, L"Textures/YouLost.dds");
 	InsertEntity(myLostMessage);
+}
+
+void GameScene::CityChaseLost()
+{
+	LoadStartMenu();//@For now
 }
 
 void GameScene::InsertEntity(BaseEntity* entity)
@@ -411,6 +425,29 @@ bool GameScene::ContainsEntity(BaseEntity *entity, int & index)
 	return false;
 }
 
+void GameScene::UpdateGraph()
+{
+	//@Get all obstacle entities, perform standard rules for edge generation
+	//@Plus distance function to all obstacles (So edges aren't generated for them)
+
+
+	//@DEFAULT GRAPH
+	for (int y = 0; y < 20; y++)
+	{
+		for (int x = 0; x < 20; x++)
+		{
+			GraphNode * node = &m_graph.m_nodes[x][y];
+			node->m_edges.clear();
+			node->m_index = x + y * 20;
+			
+			if (y > 0)  node->m_edges.push_back(GraphEdge(node->m_index, node->m_index - 20));
+			if (y < 19) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index + 20));
+			if (x > 0) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index - 1));
+			if (x < 19) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index + 1));
+		}
+	}
+}
+
 Wife * GameScene::GetWife()
 {
 	for (unsigned int i = 0; i < m_entities.size(); i++) {
@@ -435,3 +472,15 @@ Miner * GameScene::GetMiner()
 	return nullptr;
 }
 
+SteeringEntity * GameScene::GetPlayerCar() {
+	for (unsigned int i = 0; i < m_entities.size(); i++) {
+		//Look for entities which can be mouse pressed
+		SteeringEntity * player = dynamic_cast<SteeringEntity *>(m_entities[i]);
+		if (player) {
+			if (player->m_type == SteeringType::PLAYER_CAR) {
+				return player;
+			}
+		}
+	}
+	return nullptr;
+}
