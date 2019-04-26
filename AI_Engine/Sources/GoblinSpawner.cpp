@@ -43,7 +43,7 @@ void GoblinSpawner::Update(float elapsedTime)
 	Wife * wife = gs->GetWife();
 	m_timeSinceLastSpawn += elapsedTime;
 	
-	//Desirability to spawn
+	//@@Desirability to spawn
 	float spawnConstant = 0.5f;
 	//@The player's total gold, multiplied by the food and drink stack divided by hunger and thirst 
 	m_playerPower = (miner->m_gold + miner->m_bankedGold + wife->m_foodStack + wife->m_drinkStack) 

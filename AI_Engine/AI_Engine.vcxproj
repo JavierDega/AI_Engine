@@ -163,7 +163,9 @@
     <ClInclude Include="Headers\BaseEntity.h" />
     <ClInclude Include="Headers\Blackboard.h" />
     <ClInclude Include="Headers\BTNodes.h" />
+    <ClInclude Include="Headers\CitySpawner.h" />
     <ClInclude Include="Headers\ClickerButton.h" />
+    <ClInclude Include="Headers\Fence.h" />
     <ClInclude Include="Headers\FuzzyModule.h" />
     <ClInclude Include="Headers\FuzzyRule.h" />
     <ClInclude Include="Headers\FuzzySets.h" />
@@ -207,7 +209,9 @@
     <ClCompile Include="Sources\BaseEntity.cpp" />
     <ClCompile Include="Sources\Blackboard.cpp" />
     <ClCompile Include="Sources\BTNodes.cpp" />
+    <ClCompile Include="Sources\CitySpawner.cpp" />
     <ClCompile Include="Sources\ClickerButton.cpp" />
+    <ClCompile Include="Sources\Fence.cpp" />
     <ClCompile Include="Sources\FuzzyModule.cpp" />
     <ClCompile Include="Sources\FuzzyRule.cpp" />
     <ClCompile Include="Sources\FuzzySets.cpp" />

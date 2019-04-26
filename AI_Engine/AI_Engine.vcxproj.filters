@@ -126,6 +126,12 @@
     <ClInclude Include="Headers\SteeringEntity.h">
       <Filter>Headers\AI</Filter>
     </ClInclude>
+    <ClInclude Include="Headers\Fence.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Headers\CitySpawner.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -217,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="Sources\SteeringEntity.cpp">
       <Filter>Sources\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Fence.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\CitySpawner.cpp">
+      <Filter>Sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

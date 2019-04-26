@@ -11,6 +11,8 @@
 #include "Miner.h"
 #include "Wife.h"
 #include "SteeringEntity.h"
+#include "CitySpawner.h"
+#include "Fence.h"
 
 #include <iostream>
 
@@ -61,6 +63,9 @@ void GameScene::InitWindow(D3D11_VIEWPORT newScreenViewport)
 
 void GameScene::Update(float elapsedTime)
 {
+	//@Update NavGraph (Ideally behind a timer)
+	UpdateGraph();
+
 	for (unsigned int i = 0; i < m_entities.size(); i++) {
 		m_entities[i]->Update(elapsedTime);
 	}
@@ -299,20 +304,35 @@ void GameScene::LoadScene2()
 
 	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.15, 0, 0.075);
 	myBackButton->Initialize(m_device, L"Textures/backbutton.dds");
+	
 	ScrollingEntity* myScrollingBg = new ScrollingEntity(Vector2(950, 540), 50.f, 0.6f);
 	myScrollingBg->Initialize(m_device);
+	
 	SteeringEntity * myPlayer = new SteeringEntity(Vector2(1000, 500));
 	myPlayer->Initialize(m_device);
+	
 	SteeringEntity * enemyCar = new SteeringEntity(Vector2(500, 800), 50.f, SteeringType::ENEMY_CAR);
 	enemyCar->Initialize(m_device, L"Textures/car.dds");
+
+	SteeringEntity * enemyCar = new SteeringEntity(Vector2(700, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar->Initialize(m_device, L"Textures/car.dds");
+
+	SteeringEntity * enemyCar = new SteeringEntity(Vector2(900, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar->Initialize(m_device, L"Textures/car.dds");
+
+	SteeringEntity * enemyCar = new SteeringEntity(Vector2(1100, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar->Initialize(m_device, L"Textures/car.dds");
+
+	CitySpawner * myCitySpawner = new CitySpawner();
+	myCitySpawner->Initialize();
 
 	InsertEntity(myBackButton);
 	InsertEntity(myScrollingBg);
 	InsertEntity(myPlayer);
 	InsertEntity(enemyCar);
+	InsertEntity(myCitySpawner);
 
 	InitWindow(m_currentViewport);
-	UpdateGraph();
 }
 
 void GameScene::GoldRushLost()
@@ -429,8 +449,14 @@ void GameScene::UpdateGraph()
 {
 	//@Get all obstacle entities, perform standard rules for edge generation
 	//@Plus distance function to all obstacles (So edges aren't generated for them)
+	vector<Vector2> fencePositions;
 
-
+	for (int i = 0; i < m_entities.size(); i++) {
+		Fence * fenceEntity = dynamic_cast<Fence*>(m_entities[i]);
+		if (fenceEntity) fencePositions.push_back(fenceEntity->m_screenPos);
+	}
+	//@They all occupy a 3by2 grid
+	
 	//@DEFAULT GRAPH
 	for (int y = 0; y < 20; y++)
 	{
@@ -440,10 +466,70 @@ void GameScene::UpdateGraph()
 			node->m_edges.clear();
 			node->m_index = x + y * 20;
 			
-			if (y > 0)  node->m_edges.push_back(GraphEdge(node->m_index, node->m_index - 20));
-			if (y < 19) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index + 20));
-			if (x > 0) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index - 1));
-			if (x < 19) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index + 1));
+			if (y > 0) {
+				//@Check there's no barrier directly up  (close by one and a half grid on the x),(one grid pixels less).
+				bool nodeCollides = false;
+				Vector2 nodeToPos = Vector2(x * 60 - 360, (y - 1) * 54);
+				for (Vector2 fencePosition : fencePositions) {
+					if (abs(fencePosition.x - nodeToPos.x) > 120) {
+						continue;
+					}
+					if (abs(fencePosition.y - nodeToPos.y) > 108) {
+						continue;
+					}
+					//@Else its quite close
+					nodeCollides = true;
+				}
+				if (!nodeCollides)node->m_edges.push_back(GraphEdge(node->m_index, node->m_index - 20));
+			}
+			if (y < 19) {
+				//@Check there's no barrier directly down (close by one and a half grid on the x), (one grid pixels more).
+				bool nodeCollides = false;
+				Vector2 nodeToPos = Vector2(x * 60 - 360, (y + 1) * 54);
+				for (Vector2 fencePosition : fencePositions) {
+					if (abs(fencePosition.x - nodeToPos.x) > 120) {
+						continue;
+					}
+					if (abs(fencePosition.y - nodeToPos.y) > 108) {
+						continue;
+					}
+					//@Else its quite close
+					nodeCollides = true;
+				}
+				if (!nodeCollides)node->m_edges.push_back(GraphEdge(node->m_index, node->m_index + 20));
+			}
+			if (x > 0) {
+				//@Check there's no barrier directly to the left (close by one grid on the y),(one and a half grid to the left).
+				bool nodeCollides = false;
+				Vector2 nodeToPos = Vector2((x - 1) * 60 - 360, y * 54);
+				for (Vector2 fencePosition : fencePositions) {
+					if (abs(fencePosition.x - nodeToPos.x) > 120) {
+						continue;
+					}
+					if (abs(fencePosition.y - nodeToPos.y) > 108) {
+						continue;
+					}
+					//@Else its quite close
+					nodeCollides = true;
+				}
+				if (!nodeCollides) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index - 1));
+			}
+			if (x < 19) {
+				//@Check there's no barrier directly to the right (close by one grid on the y),(one and a half grid to the right).
+				bool nodeCollides = false;
+				Vector2 nodeToPos = Vector2((x + 1) * 60 - 360, y * 54);
+				for (Vector2 fencePosition : fencePositions) {
+					if (abs(fencePosition.x - nodeToPos.x) > 120) {
+						continue;
+					}
+					if (abs(fencePosition.y - nodeToPos.y) > 108) {
+						continue;
+					}
+					//@Else its quite close
+					nodeCollides = true;
+				}
+				if (!nodeCollides) node->m_edges.push_back(GraphEdge(node->m_index, node->m_index + 1));
+			}
 		}
 	}
 }

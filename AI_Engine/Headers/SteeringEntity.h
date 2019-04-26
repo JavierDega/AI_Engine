@@ -9,7 +9,7 @@ class SteeringEntity :
 	public GameEntity
 {
 public:
-	SteeringEntity(DirectX::SimpleMath::Vector2 screenPos = DirectX::SimpleMath::Vector2::Zero, float maxSpeed = 100.0f, SteeringType type = SteeringType::PLAYER_CAR,
+	SteeringEntity(DirectX::SimpleMath::Vector2 screenPos = DirectX::SimpleMath::Vector2::Zero, float maxSpeed = 200.0f, SteeringType type = SteeringType::PLAYER_CAR,
 		float layerDepth = 0.6f);
 	virtual ~SteeringEntity();
 	//Init
@@ -19,6 +19,7 @@ public:
 	//@Utility
 	void Seek(DirectX::SimpleMath::Vector2 position);
 	void Arrive(DirectX::SimpleMath::Vector2 position);
+	void Flock();
 
 	//@Variables
 	SteeringType m_type;

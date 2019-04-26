@@ -2,6 +2,7 @@
 #include "SteeringEntity.h"
 #include "GameScene.h"
 
+#define NEIGHBOURING_THRESHOLD 300
 #define DIST_THRESHOLD 100
 #define BOUNDXMIN 360.f
 #define BOUNDXMAX 1560.f
@@ -33,7 +34,6 @@ void SteeringEntity::Render(DirectX::SpriteBatch * spriteBatch)
 }
 
 void SteeringEntity::Update(float elapsedTime) {
-
 	//@Clamp movement
 	m_screenPos.x = min(BOUNDXMAX, max(m_screenPos.x, BOUNDXMIN));
 	//@First update
@@ -47,13 +47,14 @@ void SteeringEntity::Update(float elapsedTime) {
 	m_steeringForce = Vector2::Zero;
 	Seek(m_seekVector);
 	Arrive(m_seekVector);
+	if (m_type == SteeringType::ENEMY_CAR)Flock();//@SEPARATION AND ALIGNMENT
+
 	//@Steering behaviour
 	Vector2 acceleration = m_steeringForce / 1;
 	m_velocity += acceleration;
 	if (m_velocity.LengthSquared() > m_maxSpeed*m_maxSpeed) {
 		m_velocity = m_maxSpeed * m_velocity / m_velocity.Length();
 	}
-
 	m_screenPos += m_velocity * elapsedTime;
 	if (m_velocity == Vector2::Zero) {
 		m_heading = Vector2(-1, 0);
@@ -80,6 +81,7 @@ void SteeringEntity::Update(float elapsedTime) {
 	}
 	
 }
+
 //@Steering
 void SteeringEntity::Seek(DirectX::SimpleMath::Vector2 position)
 {
@@ -111,5 +113,36 @@ void SteeringEntity::Arrive(DirectX::SimpleMath::Vector2 position)
 			}
 			m_seekVector = m_waypoints[m_waypointIndex];
 		}
+	}
+}
+
+void SteeringEntity::Flock()
+{
+	//@Get list of all other enemy cars
+	GameScene * gs = GameScene::GetInstance();
+	vector<SteeringEntity *> neighbours;
+
+	for (int i = 0; i < gs->m_entities.size(); i++) {
+		SteeringEntity * enemyCar = dynamic_cast<SteeringEntity *>(gs->m_entities[i]);
+		if (enemyCar && enemyCar->m_type == SteeringType::ENEMY_CAR && this != enemyCar) {
+			//@Distance check for neighbouring
+			if ((m_screenPos - enemyCar->m_screenPos).Length() < NEIGHBOURING_THRESHOLD) {
+				neighbours.push_back(enemyCar);
+			}
+		}
+	}
+	//@Separation + alignment
+	Vector2 averageHeading = Vector2::Zero;
+	for (SteeringEntity * neighbour : neighbours) {
+		averageHeading += neighbour->m_heading;
+		Vector2 toOurAgent = m_screenPos - neighbour->m_screenPos;
+		float distance = toOurAgent.Length();
+		toOurAgent /= distance;
+		m_steeringForce += toOurAgent;
+	}
+	//@Alignment
+	if (neighbours.size() > 0) {
+		averageHeading /= neighbours.size();
+		m_steeringForce += averageHeading - m_heading;
 	}
 }
