@@ -68,7 +68,7 @@ bool Goblin::QueryClick(int mX, int mY)
 		//We clicked on this guy, return true, delete appropiately
 		GameScene * gs = GameScene::GetInstance();
 
-		TempEntity * deadSprite = new TempEntity(m_screenPos, 0.65f, 2.0f);
+		TempEntity * deadSprite = new TempEntity(m_screenPos, Vector2::Zero, 0.65f, 2.0f);
 		deadSprite->Initialize(gs->m_device, L"Textures/deadgoblin.dds");
 		gs->InsertEntity(deadSprite);
 

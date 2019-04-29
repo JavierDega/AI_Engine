@@ -14,7 +14,8 @@ public:
 	//@Variables
 	float m_timeSinceLastSpawn;
 	float m_spawnTimer;
-
+	bool m_paused;
+	float m_score;
 	//@Font to draw score
 	std::unique_ptr<DirectX::SpriteFont> m_font;
 	std::wstring m_text;

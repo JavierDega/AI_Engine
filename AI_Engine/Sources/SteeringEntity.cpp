@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SteeringEntity.h"
 #include "GameScene.h"
+#include "TempEntity.h"
 
 #define NEIGHBOURING_THRESHOLD 300
 #define DIST_THRESHOLD 100
@@ -15,6 +16,7 @@ SteeringEntity::SteeringEntity(Vector2 screenPos, float maxSpeed, SteeringType t
 {
 	m_waypointIndex = 0;
 	m_seekVector = Vector2::Zero;
+	if ((int)type & (int)SteeringType::PLAYER_CAR) m_seekVector = screenPos;//@Quick fix
 }
 
 SteeringEntity::~SteeringEntity()
@@ -72,6 +74,13 @@ void SteeringEntity::Update(float elapsedTime) {
 				if ((m_screenPos - otherCar->m_screenPos).Length() <= DIST_THRESHOLD) {
 					m_isDeleted = true;
 					otherCar->m_isDeleted = true;
+					//@Spawn two debris
+					TempEntity * carDebris = new TempEntity(m_screenPos, Vector2(0.f, 50.f));
+					carDebris->Initialize(gs->m_device, L"Textures/carCrashed.dds");
+					gs->InsertEntity(carDebris);
+					TempEntity * carDebris2 = new TempEntity(otherCar->m_screenPos, Vector2( 0.f, 50.f));
+					carDebris2->Initialize(gs->m_device, L"Textures/carCrashed.dds");
+					gs->InsertEntity(carDebris2);
 					if (m_type == SteeringType::PLAYER_CAR || otherCar->m_type == SteeringType::PLAYER_CAR) {
 						gs->CityChaseLost();
 					}

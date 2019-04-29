@@ -32,6 +32,5 @@ public:
 	DirectX::SimpleMath::Vector2 m_steeringForce;
 	DirectX::SimpleMath::Vector2 m_heading, m_side;//@Heading and side
 	float m_maxSpeed;
-
 };
 

@@ -13,5 +13,6 @@ public:
 	virtual void Render(DirectX::SpriteBatch * spriteBatch);
 	virtual void Update(float elapsedTime);
 
+	//@Variables
 	float m_scrollSpeed;
 };

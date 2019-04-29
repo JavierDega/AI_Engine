@@ -69,12 +69,11 @@ void GameScene::Update(float elapsedTime)
 	for (unsigned int i = 0; i < m_entities.size(); i++) {
 		m_entities[i]->Update(elapsedTime);
 	}
-	//Second object pass where we delete entities marked for deletion
+	//@Second object pass where we delete entities marked for deletion
 	for (unsigned int i = 0; i < m_entities.size(); i++) {
-		
 		if (m_entities[i]->m_isDeleted) {
 			RemoveAt(i);
-			i--;
+			i--;//@We use swap and pop
 		}
 	}
 }
@@ -305,31 +304,34 @@ void GameScene::LoadScene2()
 	UIButton * myBackButton = new UIButton(ButtonType::LOADMENU, 0, 0.15, 0, 0.075);
 	myBackButton->Initialize(m_device, L"Textures/backbutton.dds");
 	
-	ScrollingEntity* myScrollingBg = new ScrollingEntity(Vector2(950, 540), 50.f, 0.6f);
+	ScrollingEntity* myScrollingBg = new ScrollingEntity(Vector2(950, 540), 50.f, 0.7f);
 	myScrollingBg->Initialize(m_device);
 	
 	SteeringEntity * myPlayer = new SteeringEntity(Vector2(1000, 500));
 	myPlayer->Initialize(m_device);
 	
-	SteeringEntity * enemyCar = new SteeringEntity(Vector2(500, 800), 50.f, SteeringType::ENEMY_CAR);
+	SteeringEntity * enemyCar = new SteeringEntity(Vector2(600, 800), 50.f, SteeringType::ENEMY_CAR);
 	enemyCar->Initialize(m_device, L"Textures/car.dds");
 
-	SteeringEntity * enemyCar = new SteeringEntity(Vector2(700, 800), 50.f, SteeringType::ENEMY_CAR);
-	enemyCar->Initialize(m_device, L"Textures/car.dds");
+	SteeringEntity * enemyCar2 = new SteeringEntity(Vector2(800, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar2->Initialize(m_device, L"Textures/car.dds");
 
-	SteeringEntity * enemyCar = new SteeringEntity(Vector2(900, 800), 50.f, SteeringType::ENEMY_CAR);
-	enemyCar->Initialize(m_device, L"Textures/car.dds");
+	SteeringEntity * enemyCar3 = new SteeringEntity(Vector2(1000, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar3->Initialize(m_device, L"Textures/car.dds");
 
-	SteeringEntity * enemyCar = new SteeringEntity(Vector2(1100, 800), 50.f, SteeringType::ENEMY_CAR);
-	enemyCar->Initialize(m_device, L"Textures/car.dds");
+	SteeringEntity * enemyCar4 = new SteeringEntity(Vector2(1200, 800), 50.f, SteeringType::ENEMY_CAR);
+	enemyCar4->Initialize(m_device, L"Textures/car.dds");
 
 	CitySpawner * myCitySpawner = new CitySpawner();
-	myCitySpawner->Initialize();
+	myCitySpawner->Initialize(m_device);
 
 	InsertEntity(myBackButton);
 	InsertEntity(myScrollingBg);
 	InsertEntity(myPlayer);
 	InsertEntity(enemyCar);
+	InsertEntity(enemyCar2);
+	InsertEntity(enemyCar3);
+	InsertEntity(enemyCar4);
 	InsertEntity(myCitySpawner);
 
 	InitWindow(m_currentViewport);
@@ -370,7 +372,30 @@ void GameScene::GoldRushLost()
 
 void GameScene::CityChaseLost()
 {
-	LoadStartMenu();//@For now
+	//LoadStartMenu();//@For now
+
+	//@Pause city spawner (Stops spawning, stops adding score).
+	//@Delete cars, let fences be (They get deleted automatically)
+	for (int i = 0; i < m_entities.size(); i++) {
+
+		SteeringEntity * steeringEntity = dynamic_cast<SteeringEntity*>(m_entities[i]);
+		CitySpawner * citySpawner = dynamic_cast<CitySpawner*>(m_entities[i]);
+
+		if (steeringEntity) {
+			steeringEntity->m_isDeleted = true;
+			//@Don't spawn debris
+		}
+		if (citySpawner) {
+			citySpawner->m_paused = true;
+		}
+	}
+
+	//Create UI Entity that conveys lost
+	UIEntity* myLostMessage = new UIEntity(0.4, 0.6, 0.45, 0.6);
+	//UI Entities need an InitWindow() call
+	myLostMessage->InitWindow(m_currentViewport);
+	myLostMessage->Initialize(m_device, L"Textures/YouLost2.dds");
+	InsertEntity(myLostMessage);
 }
 
 void GameScene::InsertEntity(BaseEntity* entity)
@@ -399,8 +424,8 @@ void GameScene::RemoveAt(int index) {
 		swap(m_entities[index], m_entities.back());
 	}
 	BaseEntity * entity = m_entities.back();
-	m_entities.pop_back();
 	delete entity;
+	m_entities.pop_back();
 }
 
 void GameScene::RemoveAllEntities()
@@ -408,10 +433,10 @@ void GameScene::RemoveAllEntities()
 	//Safety check
 	while (!m_entities.empty()) {
 		BaseEntity * curEntity = m_entities[m_entities.size() - 1];
-		//Remove from vector
-		m_entities.pop_back();
 		//Destructor**
 		delete curEntity;
+		//Remove from vector
+		m_entities.pop_back();
 	}
 }
 
