@@ -13,6 +13,7 @@
 #include "SteeringEntity.h"
 #include "CitySpawner.h"
 #include "Fence.h"
+#include "TempEntity.h"
 
 #include <iostream>
 
@@ -372,8 +373,6 @@ void GameScene::GoldRushLost()
 
 void GameScene::CityChaseLost()
 {
-	//LoadStartMenu();//@For now
-
 	//@Pause city spawner (Stops spawning, stops adding score).
 	//@Delete cars, let fences be (They get deleted automatically)
 	for (int i = 0; i < m_entities.size(); i++) {
@@ -383,7 +382,12 @@ void GameScene::CityChaseLost()
 
 		if (steeringEntity) {
 			steeringEntity->m_isDeleted = true;
-			//@Don't spawn debris
+			if (steeringEntity->m_type == SteeringType::PLAYER_CAR) {
+				GameScene * gs = GameScene::GetInstance();
+				TempEntity * debris = new TempEntity(steeringEntity->m_screenPos, Vector2(0, 50.f));
+				debris->Initialize(gs->m_device, L"Textures/carCrashed.dds");
+				gs->InsertEntity(debris);
+			}
 		}
 		if (citySpawner) {
 			citySpawner->m_paused = true;

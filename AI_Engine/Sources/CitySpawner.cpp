@@ -57,12 +57,12 @@ void CitySpawner::Update(float elapsedTime)
 		GameScene * gs = GameScene::GetInstance();
 		//@Generate randPos;
 		float rand = 360 + (std::rand() % (1560 - 360 + 1));
-		Fence * spawnedFence = new Fence( Vector2( rand, 0));
+		Fence * spawnedFence = new Fence( Vector2( rand, 0), 50.f, 0.5f);
 		spawnedFence->Initialize(gs->m_device);
 		gs->InsertEntity(spawnedFence);
 		
-		float rand2 = 360 + (std::rand() % (1560 - 360 + 1));
-		SteeringEntity * spawnedCar = new SteeringEntity(Vector2(rand2, 1000), std::rand() % (300 - 100 + 1), SteeringType::ENEMY_CAR);
+		float rand2 = 360 + (std::rand() % (1530 - 360 + 1));//@Avoid overflows reducin the max X range
+		SteeringEntity * spawnedCar = new SteeringEntity(Vector2(rand2, 1000), std::rand() % (300 - 100 + 1), SteeringType::ENEMY_CAR, 0.5f);
 		spawnedCar->Initialize(gs->m_device, L"Textures/car.dds");
 		gs->InsertEntity(spawnedCar);
 	}

@@ -44,10 +44,13 @@ void Fence::Update(float elapsedTime)
 			}
 			//@At this point they must collide
 			if (otherCar->m_type == SteeringType::PLAYER_CAR) gs->CityChaseLost();//@We just crashed into a fence
-			TempEntity * carDebris = new TempEntity(otherCar->m_screenPos, Vector2(0.f, 50.f));
-			carDebris->Initialize(gs->m_device, L"Textures/carCrashed.dds");
-			gs->InsertEntity(carDebris);
-			otherCar->m_isDeleted = true;
+			else {
+				//@Police car crashed into a fence
+				TempEntity * carDebris = new TempEntity(otherCar->m_screenPos, Vector2(0.f, 50.f));
+				carDebris->Initialize(gs->m_device, L"Textures/carCrashed.dds");
+				gs->InsertEntity(carDebris);
+				otherCar->m_isDeleted = true;
+			}
 		}
 	}
 	//@Disappear
